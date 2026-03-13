@@ -493,6 +493,7 @@ a:hover { color: var(--accent-cyan); }
     linear-gradient(var(--text-secondary) 1px, transparent 1px),
     linear-gradient(90deg, var(--text-secondary) 1px, transparent 1px);
   background-size: 20px 20px;
+  pointer-events: none;
 }
 
 /* ---- Footer ---- */

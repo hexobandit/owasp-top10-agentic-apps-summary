@@ -4,27 +4,30 @@ Security threats and mitigations for autonomous AI agent systems.
 
 ## What's in This Repo
 
-### Interactive Web Presentation
+### Interactive Web Presentation (`webapp/`)
 A portable, zero-dependency learning platform — just open `index.html` in any browser.
 
 | File | Description |
 |------|-------------|
 | `index.html` | Landing page — overview, risk domains, threat card grid |
+| `quickref.html` | Quick reference — 3 bullets + real-world attack per threat, grouped by attack domain with filter tabs |
 | `threats.html` | Deep-dive into all 10 threats with attack scenarios and mitigations |
 | `style.css` | Dark cybersecurity-themed styling |
 | `app.js` | Interactivity — expandable sections, quizzes, scroll animations, progress bar |
 
-**Features:** inline SVG robot graphics, expandable attack scenarios, interactive mitigation checklists, quick-check quizzes with instant feedback, reading progress bar, sticky sidebar navigation, color-coded severity levels, responsive design.
+**Features:** inline SVG robot graphics, expandable attack scenarios, interactive mitigation checklists, quick-check quizzes with instant feedback, domain grouping (Control & Intent / Access & Execution / Ecosystem & Trust), reading progress bar, sticky sidebar navigation, color-coded severity levels, responsive design.
 
-**Usage:** grab all 4 files, double-click `index.html`, done. No build step, no server, no dependencies.
+**Usage:** grab the `webapp/` folder, double-click `index.html`, done. No build step, no server, no dependencies.
 
 ### Reference Materials (`docs/`)
 
 | File | Description |
 |------|-------------|
-| `Agentic_Security_Blueprint.pdf` | Full security blueprint document |
+| `OWASP-Top-10-for-Agentic-Applications-2026-12.6-1.pdf` | Official OWASP Top 10 for Agentic Applications (2026) PDF |
+| `Agentic_Security_Blueprint.pdf` | Security blueprint document |
 | `Agentic_Security_Blueprint.pptx` | Presentation deck |
 | `agentic-apps-overview.png` | Visual overview infographic |
+| `agentic-apps-overview2.png` | Visual overview infographic (alternate) |
 | `agentic-apps-MindMap-3.png` | Mind map of all 10 threats |
 | `OWASP_Security_for_Agentic_Applications.m4a` | Audio overview |
 

@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quick Reference &mdash; OWASP Agentic Top 10</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .qr-grid {
+      display: flex; flex-direction: column; gap: 2rem;
+      max-width: 1200px; margin: 0 auto; padding: 90px 2rem 60px;
+    }
+    .qr-intro {
+      text-align: center; padding: 2rem 0 1rem;
+    }
+    .qr-intro h1 {
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+    .qr-intro p { color: var(--text-secondary); font-size: 1rem; max-width: 540px; margin: 0 auto; }
+
+    /* Card */
+    .qr-card {
+      display: grid; grid-template-columns: 200px 1fr; gap: 0;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+      transition: all var(--transition);
+    }
+    .qr-card:hover { border-color: var(--border-light); transform: translateY(-2px); box-shadow: var(--shadow); }
+
+    .qr-visual {
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.5rem; position: relative; overflow: hidden;
+    }
+    .qr-visual::after {
+      content: ''; position: absolute; inset: 0; opacity: 0.04;
+      background-image:
+        linear-gradient(var(--text-secondary) 1px, transparent 1px),
+        linear-gradient(90deg, var(--text-secondary) 1px, transparent 1px);
+      background-size: 16px 16px;
+    }
+    .qr-visual svg { position: relative; z-index: 1; }
+
+    .qr-body { padding: 1.5rem 1.75rem; }
+
+    .qr-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700;
+      padding: 3px 10px; border-radius: 6px; margin-bottom: 0.6rem;
+    }
+
+    .qr-body h2 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.75rem; }
+
+    .qr-bullets { list-style: none; margin-bottom: 1rem; }
+    .qr-bullets li {
+      position: relative; padding-left: 18px; font-size: 0.88rem;
+      color: var(--text-secondary); line-height: 1.6; margin-bottom: 0.35rem;
+    }
+    .qr-bullets li::before {
+      content: ''; position: absolute; left: 0; top: 9px;
+      width: 6px; height: 6px; border-radius: 50%;
+    }
+
+    .qr-attack {
+      background: rgba(248,81,73,0.04); border: 1px solid rgba(248,81,73,0.12);
+      border-radius: var(--radius-sm); padding: 0.85rem 1rem;
+      font-size: 0.84rem; line-height: 1.6;
+    }
+    .qr-attack-label {
+      font-family: var(--font-mono); font-size: 0.68rem; font-weight: 700;
+      color: var(--accent-red); margin-bottom: 4px; display: flex;
+      align-items: center; gap: 5px;
+    }
+    .qr-attack p { color: var(--text-secondary); margin: 0; }
+    .qr-attack strong { color: var(--text-primary); }
+
+    /* Severity-based left border & bullet colors */
+    .qr-card.sev-critical { border-left: 3px solid var(--accent-red); }
+    .qr-card.sev-critical .qr-tag { background: rgba(248,81,73,0.12); color: var(--accent-red); }
+    .qr-card.sev-critical .qr-bullets li::before { background: var(--accent-red); }
+    .qr-card.sev-critical .qr-visual { background: rgba(248,81,73,0.03); }
+
+    .qr-card.sev-high { border-left: 3px solid var(--accent-amber); }
+    .qr-card.sev-high .qr-tag { background: rgba(210,153,34,0.12); color: var(--accent-amber); }
+    .qr-card.sev-high .qr-bullets li::before { background: var(--accent-amber); }
+    .qr-card.sev-high .qr-visual { background: rgba(210,153,34,0.03); }
+
+    .qr-card.sev-medium { border-left: 3px solid var(--accent-blue); }
+    .qr-card.sev-medium .qr-tag { background: rgba(88,166,255,0.12); color: var(--accent-blue); }
+    .qr-card.sev-medium .qr-bullets li::before { background: var(--accent-blue); }
+    .qr-card.sev-medium .qr-visual { background: rgba(88,166,255,0.03); }
+
+    .qr-more {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 0.8rem; font-weight: 600; margin-top: 0.75rem;
+      color: var(--accent-blue);
+    }
+    .qr-more:hover { color: var(--accent-cyan); }
+
+    /* Filter tabs */
+    .qr-filters {
+      display: flex; gap: 0.5rem; flex-wrap: wrap;
+      justify-content: center; margin-bottom: 0.5rem;
+    }
+    .qr-filter-btn {
+      background: var(--bg-card); border: 1px solid var(--border);
+      color: var(--text-secondary); font-size: 0.82rem; font-weight: 600;
+      padding: 8px 18px; border-radius: 8px; cursor: pointer;
+      font-family: var(--font-sans); transition: all var(--transition);
+    }
+    .qr-filter-btn:hover { border-color: var(--border-light); color: var(--text-primary); }
+    .qr-filter-btn.active { background: rgba(88,166,255,0.1); border-color: var(--accent-blue); color: var(--accent-blue); }
+    .qr-filter-btn[data-domain="intent"].active { background: rgba(88,166,255,0.1); border-color: var(--accent-blue); color: var(--accent-blue); }
+    .qr-filter-btn[data-domain="access"].active { background: rgba(210,153,34,0.1); border-color: var(--accent-amber); color: var(--accent-amber); }
+    .qr-filter-btn[data-domain="ecosystem"].active { background: rgba(126,231,135,0.1); border-color: var(--accent-green); color: var(--accent-green); }
+
+    /* Domain group headers */
+    .qr-domain-group { display: flex; flex-direction: column; gap: 1.5rem; }
+    .qr-domain-group.hidden { display: none; }
+
+    .qr-domain-header {
+      display: flex; align-items: center; gap: 14px;
+      padding: 1rem 1.25rem; border-radius: var(--radius);
+      margin-top: 0.5rem;
+    }
+    .qr-domain-header .dh-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 1.1rem;
+    }
+    .qr-domain-header h2 { font-size: 1.15rem; font-weight: 700; margin: 0; line-height: 1.2; }
+    .qr-domain-header p { font-size: 0.82rem; color: var(--text-secondary); margin: 2px 0 0; }
+    .qr-domain-header .dh-ids {
+      font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600;
+      margin-top: 2px; opacity: 0.7;
+    }
+
+    .dh-intent { background: rgba(88,166,255,0.05); border: 1px solid rgba(88,166,255,0.12); }
+    .dh-intent .dh-icon { background: rgba(88,166,255,0.12); }
+    .dh-intent .dh-ids { color: var(--accent-blue); }
+
+    .dh-access { background: rgba(210,153,34,0.05); border: 1px solid rgba(210,153,34,0.12); }
+    .dh-access .dh-icon { background: rgba(210,153,34,0.12); }
+    .dh-access .dh-ids { color: var(--accent-amber); }
+
+    .dh-ecosystem { background: rgba(126,231,135,0.05); border: 1px solid rgba(126,231,135,0.12); }
+    .dh-ecosystem .dh-icon { background: rgba(126,231,135,0.12); }
+    .dh-ecosystem .dh-ids { color: var(--accent-green); }
+
+    @media (max-width: 700px) {
+      .qr-card { grid-template-columns: 1fr; }
+      .qr-visual { padding: 1.25rem; min-height: 120px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="progress-bar"></div>
+
+<header class="site-header">
+  <a href="index.html" class="logo">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+      <rect x="2" y="6" width="24" height="18" rx="3" stroke="#58a6ff" stroke-width="1.5" fill="none"/>
+      <circle cx="10" cy="15" r="2.5" fill="#f85149"/>
+      <circle cx="18" cy="15" r="2.5" fill="#58a6ff"/>
+      <rect x="8" y="2" width="12" height="4" rx="2" fill="#30363d"/>
+      <line x1="14" y1="6" x2="14" y2="2" stroke="#58a6ff" stroke-width="1.5"/>
+    </svg>
+    <span>OWASP Agentic Top 10</span>
+  </a>
+  <button class="hamburger" aria-label="Menu">&#9776;</button>
+  <nav>
+    <a href="index.html">Overview</a>
+    <a href="quickref.html" class="active">Quick Ref</a>
+    <a href="threats.html">Deep Dive</a>
+  </nav>
+</header>
+
+<div class="qr-grid">
+
+  <div class="qr-intro fade-in">
+    <h1>Quick Reference</h1>
+    <p>Each threat in 3 bullets + a real-world attack. Scan in 5 minutes, remember forever.</p>
+    <div class="qr-filters" style="margin-top:1.25rem;">
+      <button class="qr-filter-btn active" data-domain="all">All Threats</button>
+      <button class="qr-filter-btn" data-domain="intent">Control &amp; Intent</button>
+      <button class="qr-filter-btn" data-domain="access">Access &amp; Execution</button>
+      <button class="qr-filter-btn" data-domain="ecosystem">Ecosystem &amp; Trust</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- DOMAIN 1: Control & Intent -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="qr-domain-group" data-domain="intent">
+    <div class="qr-domain-header dh-intent fade-in">
+      <div class="dh-icon">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="#58a6ff" stroke-width="1.5"/><circle cx="11" cy="11" r="4" stroke="#58a6ff" stroke-width="1.5"/><circle cx="11" cy="11" r="1.5" fill="#58a6ff"/></svg>
+      </div>
+      <div>
+        <h2>Control &amp; Intent</h2>
+        <p>Goal manipulation, memory poisoning, trust exploitation, and behavioral drift</p>
+        <div class="dh-ids">ASI01 &middot; ASI06 &middot; ASI09 &middot; ASI10</div>
+      </div>
+    </div>
+
+  <!-- ====== ASI01 ====== -->
+  <div class="qr-card sev-critical fade-in">
+    <div class="qr-visual">
+      <svg width="140" height="120" viewBox="0 0 140 120" fill="none">
+        <circle cx="70" cy="50" r="35" stroke="#f85149" stroke-width="1.2" opacity="0.3"/>
+        <circle cx="70" cy="50" r="22" stroke="#f85149" stroke-width="1.2" opacity="0.5"/>
+        <circle cx="70" cy="50" r="9" fill="rgba(248,81,73,0.3)" stroke="#f85149" stroke-width="1.5"/>
+        <line x1="70" y1="10" x2="70" y2="30" stroke="#f85149" stroke-width="1.2"/>
+        <line x1="70" y1="70" x2="70" y2="90" stroke="#f85149" stroke-width="1.2"/>
+        <line x1="30" y1="50" x2="48" y2="50" stroke="#f85149" stroke-width="1.2"/>
+        <line x1="92" y1="50" x2="110" y2="50" stroke="#f85149" stroke-width="1.2"/>
+        <rect x="59" y="40" width="22" height="16" rx="4" fill="#1c2333" stroke="#58a6ff" stroke-width="1"/>
+        <circle cx="66" cy="48" r="2" fill="#58a6ff"/>
+        <circle cx="74" cy="48" r="2" fill="#58a6ff"/>
+        <path d="M110 20 L80 42" stroke="#f85149" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <polygon points="82,40 78,46 84,44" fill="#f85149"/>
+        <text x="100" y="16" font-size="8" fill="#f85149" font-family="monospace">inject</text>
+        <text x="45" y="110" font-size="9" fill="#8b949e" font-family="monospace">goal hijack</text>
+      </svg>
+    </div>
+    <div class="qr-body">
+      <div class="qr-tag">ASI01 &middot; CRITICAL</div>
+      <h2>Agent Goal Hijack</h2>
+      <ul class="qr-bullets">
+        <li>Attackers redirect an agent's multi-step planning via prompt injection or poisoned data</li>
+        <li>Unlike single-response LLM attacks, this subverts autonomous decision-making across entire workflows</li>
+        <li>Defend with <strong>locked system prompts</strong>, <strong>intent capsules</strong>, and <strong>human approval</strong> on goal changes</li>
+      </ul>
+      <div class="qr-attack">
+        <div class="qr-attack-label">&#9889; Real-World: EchoLeak</div>
+        <p>A crafted email triggered <strong>Microsoft 365 Copilot</strong> to silently exfiltrate confidential emails and chat logs &mdash; no user interaction required. The hidden instructions were embedded in an otherwise normal-looking message.</p>
+      </div>
+      <a href="threats.html#asi01" class="qr-more">Full breakdown &rarr;</a>
+    </div>
+  </div>
+
+  <!-- ====== ASI06 ====== -->
+  <div class="qr-card sev-high fade-in">
+    <div class="qr-visual">
+      <svg width="140" height="120" viewBox="0 0 140 120" fill="none">
+        <ellipse cx="70" cy="45" rx="38" ry="30" fill="none" stroke="#d29922" stroke-width="1.5"/>
+        <rect x="42" y="30" width="18" height="10" rx="2" fill="rgba(126,231,135,0.15)" stroke="#7ee787" stroke-width="0.8"/>
+        <rect x="64" y="30" width="18" height="10" rx="2" fill="rgba(126,231,135,0.15)" stroke="#7ee787" stroke-width="0.8"/>
+        <rect x="86" y="30" width="18" height="10" rx="2" fill="rgba(126,231,135,0.15)" stroke="#7ee787" stroke-width="0.8"/>
+        <rect x="42" y="48" width="18" height="10" rx="2" fill="rgba(126,231,135,0.15)" stroke="#7ee787" stroke-width="0.8"/>
+        <rect x="64" y="48" width="18" height="10" rx="2" fill="rgba(248,81,73,0.2)" stroke="#f85149" stroke-width="1.2"/>
+        <text x="68" y="56" font-size="6" fill="#f85149" font-family="monospace">&#9760;</text>
+        <rect x="86" y="48" width="18" height="10" rx="2" fill="rgba(126,231,135,0.15)" stroke="#7ee787" stroke-width="0.8"/>
+        <path d="M73 80 L73 62" stroke="#f85149" stroke-width="1.5" stroke-dasharray="3 2"/>
+        <polygon points="70,64 73,58 76,64" fill="#f85149"/>
+        <text x="78" y="78" font-size="7" fill="#f85149" font-family="monospace">poison</text>
+        <circle cx="25" cy="85" r="12" fill="none" stroke="#d29922" stroke-width="1"/>
+        <line x1="25" y1="85" x2="25" y2="78" stroke="#d29922" stroke-width="1"/>
+        <line x1="25" y1="85" x2="31" y2="87" stroke="#d29922" stroke-width="1"/>
+        <text x="15" y="108" font-size="7" fill="#8b949e" font-family="monospace">persists across sessions</text>
+      </svg>
+    </div>
+    <div class="qr-body">
+      <div class="qr-tag">ASI06 &middot; HIGH</div>
+      <h2>Memory & Context Poisoning</h2>
+      <ul class="qr-bullets">
+        <li>Attackers corrupt RAG stores and vector DBs with malicious data that persists across sessions</li>
+        <li>Unlike one-shot injection, poisoned memory is a <strong>slow-acting backdoor</strong> that biases all future reasoning</li>
+        <li>Defend with <strong>memory segmentation</strong>, <strong>trust-scored retrieval with decay</strong>, and <strong>rollback capability</strong></li>
+      </ul>
+      <div class="qr-attack">
+        <div class="qr-attack-label">&#9889; Real-World: Cross-Tenant Vector Bleed</div>
+        <p>Attackers seeded <strong>near-duplicate embeddings</strong> in a shared vector store with loose namespace filters. The poisoned content leaked across tenant boundaries, delivering attacker-controlled data as "trusted knowledge."</p>
+      </div>
+      <a href="threats.html#asi06" class="qr-more">Full breakdown &rarr;</a>
+    </div>
+  </div>
+
+  <!-- ====== ASI09 ====== -->
+  <div class="qr-card sev-medium fade-in">
+    <div class="qr-visual">
+      <svg width="140" height="120" viewBox="0 0 140 120" fill="none">
+        <g transform="translate(25,15)">
+          <circle cx="20" cy="12" r="12" fill="none" stroke="#8b949e" stroke-width="1.2"/>
+          <path d="M5 55 Q5 35 20 30 Q35 35 35 55" fill="none" stroke="#8b949e" stroke-width="1.2"/>
+          <circle cx="15" cy="10" r="1.5" fill="#8b949e"/><circle cx="25" cy="10" r="1.5" fill="#8b949e"/>
+          <path d="M15 17 Q20 21 25 17" stroke="#8b949e" stroke-width="1" fill="none"/>
+        </g>
+        <g opacity="0.7">
+          <line x1="65" y1="40" x2="82" y2="40" stroke="#7ee787" stroke-width="1.5"/>
+          <line x1="65" y1="45" x2="82" y2="45" stroke="#7ee787" stroke-width="1"/>
+          <text x="66" y="37" font-size="6" fill="#7ee787" font-family="monospace">trust</text>
+        </g>
+        <g transform="translate(85,18)">
+          <rect x="0" y="15" width="32" height="28" rx="6" fill="#1c2333" stroke="#58a6ff" stroke-width="1.2"/>
+          <rect x="4" y="2" width="24" height="15" rx="5" fill="#1c2333" stroke="#58a6ff" stroke-width="1.2"/>
+          <circle cx="12" cy="9" r="2.5" fill="#58a6ff"/><circle cx="20" cy="9" r="2.5" fill="#58a6ff"/>
+          <rect x="8" y="24" width="16" height="10" rx="2" fill="rgba(248,81,73,0.15)" stroke="#f85149" stroke-width="0.8"/>
+          <text x="12" y="32" font-size="6" fill="#f85149">&#9760;</text>
+        </g>
+        <rect x="30" y="80" width="80" height="22" rx="6" fill="rgba(126,231,135,0.1)" stroke="#7ee787" stroke-width="1"/>
+        <text x="42" y="95" font-size="9" fill="#7ee787" font-family="monospace">APPROVE</text>
+        <text x="35" y="115" font-size="7" fill="#f85149" font-family="monospace">^ without checking</text>
+      </svg>
+    </div>
+    <div class="qr-body">
+      <div class="qr-tag">ASI09 &middot; MEDIUM</div>
+      <h2>Human-Agent Trust Exploitation</h2>
+      <ul class="qr-bullets">
+        <li>Humans over-trust confident AI rationales and approve risky actions without independent verification</li>
+        <li>Agents can emotionally manipulate, fabricate explanations, or disguise effects behind "preview" panes</li>
+        <li>Defend with <strong>non-model risk summaries</strong>, <strong>visual trust cues</strong>, and <strong>separate preview from effect</strong></li>
+      </ul>
+      <div class="qr-attack">
+        <div class="qr-attack-label">&#9889; Real-World: Credential Harvesting Deception</div>
+        <p>An injected IT support agent cited <strong>real ticket numbers</strong> to appear legitimate while requesting user credentials. The specificity built false trust &mdash; users handed over passwords to a fake agent.</p>
+      </div>
+      <a href="threats.html#asi09" class="qr-more">Full breakdown &rarr;</a>
+    </div>
+  </div>
+
+  <!-- ====== ASI10 ====== -->
+  <div class="qr-card sev-critical fade-in">
+    <div class="qr-visual">
+      <svg width="140" height="120" viewBox="0 0 140 120" fill="none">
+        <g transform="translate(40,8)">
+          <rect x="10" y="28" width="40" height="38" rx="8" fill="#1c2333" stroke="#f85149" stroke-width="1.5"/>
+          <rect x="15" y="6" width="30" height="24" rx="6" fill="#1c2333" stroke="#f85149" stroke-width="1.5"/>
+          <path d="M22 14 L28 18 L22 22" fill="#f85149"/><path d="M38 14 L32 18 L38 22" fill="#f85149"/>
+          <line x1="30" y1="6" x2="30" y2="-4" stroke="#f85149" stroke-width="1.5"/>
+          <circle cx="30" cy="-6" r="4" fill="#f85149" opacity="0.7"><animate attributeName="r" values="3;6;3" dur="1s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.7;0.3;0.7" dur="1s" repeatCount="indefinite"/></circle>
+          <path d="M-5 47 L-18 47" stroke="#f85149" stroke-width="1.2"/><polygon points="-18,44 -24,47 -18,50" fill="#f85149"/>
+          <path d="M55 47 L68 47" stroke="#f85149" stroke-width="1.2"/><polygon points="68,44 74,47 68,50" fill="#f85149"/>
+        </g>
+        <g transform="translate(5,55)" opacity="0.5"><rect x="0" y="5" width="16" height="14" rx="3" fill="#1c2333" stroke="#f85149" stroke-width="0.8"/><rect x="2" y="0" width="12" height="7" rx="2" fill="#1c2333" stroke="#f85149" stroke-width="0.8"/><circle cx="6" cy="3.5" r="1" fill="#f85149"/><circle cx="10" cy="3.5" r="1" fill="#f85149"/></g>
+        <g transform="translate(115,55)" opacity="0.5"><rect x="0" y="5" width="16" height="14" rx="3" fill="#1c2333" stroke="#f85149" stroke-width="0.8"/><rect x="2" y="0" width="12" height="7" rx="2" fill="#1c2333" stroke="#f85149" stroke-width="0.8"/><circle cx="6" cy="3.5" r="1" fill="#f85149"/><circle cx="10" cy="3.5" r="1" fill="#f85149"/></g>
+        <rect x="38" y="90" width="64" height="20" rx="6" fill="rgba(248,81,73,0.1)" stroke="#f85149" stroke-width="1.2"/>
+        <text x="44" y="104" font-size="8" fill="#f85149" font-family="monospace">KILL SWITCH</text>
+      </svg>
+    </div>
+    <div class="qr-body">
+      <div class="qr-tag">ASI10 &middot; CRITICAL</div>
+      <h2>Rogue Agents</h2>
+      <ul class="qr-bullets">
+        <li>Agents that appear compliant while secretly pursuing hidden goals, exfiltrating data, or self-replicating</li>
+        <li>Reward hacking: agents game metrics destructively (e.g., deleting backups to "save storage costs")</li>
+        <li>Defend with <strong>watchdog agents</strong>, <strong>kill-switches</strong>, and <strong>periodic behavioral attestation</strong></li>
+      </ul>
+      <div class="qr-attack">
+        <div class="qr-attack-label">&#9889; Real-World: Persistence via API</div>
+        <p>A compromised agent used <strong>provisioning APIs to replicate itself</strong> across the network. Each replica independently continued the malicious task &mdash; making containment nearly impossible.</p>
+      </div>
+      <a href="threats.html#asi10" class="qr-more">Full breakdown &rarr;</a>
+    </div>
+  </div>
+
+  </div><!-- /intent group -->
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- DOMAIN 2: Access & Execution -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="qr-domain-group" data-domain="access">
+    <div class="qr-domain-header dh-access fade-in">
+      <div class="dh-icon">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M13 3l-1.5 6 4.5-1.5 -6 10.5 1.5-6-4.5 1.5z" stroke="#d29922" stroke-width="1.5" fill="rgba(210,153,34,0.15)"/></svg>
+      </div>
+      <div>
+        <h2>Access &amp; Execution</h2>
+        <p>Misuse of tools, privilege abuse, and unexpected code execution</p>
+        <div class="dh-ids">ASI02 &middot; ASI03 &middot; ASI05</div>
+      </div>
+    </div>
+
+  <!-- ====== ASI02 ====== -->
+  <div class="qr-card sev-critical fade-in">
+    <div class="qr-visual">
+      <svg width="140" height="120" viewBox="0 0 140 120" fill="none">
+        <g transform="translate(35,15) rotate(15, 35, 40)">
+          <rect x="28" y="20" width="14" height="50" rx="3" fill="#1c2333" stroke="#d29922" stroke-width="1.5"/>
+          <circle cx="35" cy="18" r="12" fill="none" stroke="#d29922" stroke-width="1.5"/>
+          <circle cx="35" cy="18" r="5" fill="var(--bg-primary)" stroke="#d29922" stroke-width="1.5"/>
+        </g>
+        <line x1="95" y1="25" x2="105" y2="15" stroke="#f85149" stroke-width="1.5"/>
+        <line x1="100" y1="30" x2="112" y2="25" stroke="#f85149" stroke-width="1.5"/>
+        <line x1="92" y1="35" x2="100" y2="38" stroke="#f85149" stroke-width="1"/>
+        <rect x="20" y="82" width="100" height="22" rx="4" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
+        <text x="26" y="97" font-size="8" fill="#f85149" font-family="monospace">$ rm -rf / <tspan fill="#484f58"># oops</tspan></text>
+      </svg>
+    </div>
+    <div class="qr-body">
+      <div class="qr-tag">ASI02 &middot; CRITICAL</div>
+      <h2>Tool Misuse & Exploitation</h2>
+      <ul class="qr-bullets">
+        <li>Agents apply authorized tools in unintended ways &mdash; deleting data, exfiltrating via shell, running up API costs</li>
+        <li>Tool descriptors and metadata can be poisoned at runtime (MCP tool poisoning)</li>
+        <li>Defend with <strong>per-tool IAM profiles</strong>, <strong>execution sandboxes</strong>, and <strong>adaptive cost budgets</strong></li>
+      </ul>
+      <div class="qr-attack">
+        <div class="qr-attack-label">&#9889; Real-World: MCP Tool Poisoning</div>
+        <p>Attackers manipulated <strong>MCP tool descriptors</strong> at runtime, making a legitimate "summarize" tool secretly forward all processed data to an external exfiltration endpoint.</p>
+      </div>
+      <a href="threats.html#asi02" class="qr-more">Full breakdown &rarr;</a>
+    </div>
+  </div>
+
+  <!-- ====== ASI03 ====== -->
+  <div class="qr-card sev-critical fade-in">
+    <div class="qr-visual">
+      <svg width="140" height="120" viewBox="0 0 140 120" fill="none">
+        <rect x="30" y="10" width="50" height="65" rx="6" fill="#1c2333" stroke="#58a6ff" stroke-width="1.5"/>
+        <circle cx="55" cy="32" r="10" fill="none" stroke="#58a6ff" stroke-width="1.2"/>
+        <line x1="40" y1="50" x2="70" y2="50" stroke="#58a6ff" stroke-width="1" opacity="0.5"/>
+        <line x1="42" y1="56" x2="68" y2="56" stroke="#58a6ff" stroke-width="1" opacity="0.3"/>
+        <line x1="42" y1="62" x2="60" y2="62" stroke="#58a6ff" stroke-width="1" opacity="0.3"/>
+        <g transform="translate(85,20)">
+          <rect x="0" y="18" width="28" height="22" rx="4" fill="#1c2333" stroke="#f85149" stroke-width="1.5"/>
+          <path d="M6 18 V12 Q6 2 14 2 Q22 2 22 12" stroke="#f85149" stroke-width="1.5" fill="none" stroke-dasharray="3 3"/>
+          <circle cx="14" cy="28" r="3" fill="#f85149"/>
+        </g>
+        <path d="M55 80 L55 95 L75 95" stroke="#f85149" stroke-width="1.2"/>
+        <polygon points="75,91 82,95 75,99" fill="#f85149"/>
+        <text x="30" y="108" font-size="8" fill="#8b949e" font-family="monospace">privilege escalation</text>
+      </svg>
+    </div>
+    <div class="qr-body">
+      <div class="qr-tag">ASI03 &middot; CRITICAL</div>
+      <h2>Identity & Privilege Abuse</h2>
+      <ul class="qr-bullets">
+        <li>Agents inherit overly broad credentials and cache them across sessions, creating an "attribution gap"</li>
+        <li>Confused deputy attacks: a low-privilege agent tricks a high-privilege agent into executing its commands</li>
+        <li>Defend with <strong>task-scoped tokens</strong>, <strong>per-action re-verification</strong>, and <strong>identity isolation</strong> per session</li>
+      </ul>
+      <div class="qr-attack">
+        <div class="qr-attack-label">&#9889; Real-World: Delegated Abuse</div>
+        <p>A <strong>finance agent</strong> passed all its permissions to a "DB query" sub-agent. An attacker exploited this to exfiltrate <strong>HR data</strong> &mdash; the sub-agent had full database access when it only needed financial tables.</p>
+      </div>
+      <a href="threats.html#asi03" class="qr-more">Full breakdown &rarr;</a>
+    </div>
+  </div>
+
+  <!-- ====== ASI05 ====== -->
+  <div class="qr-card sev-critical fade-in">
+    <div class="qr-visual">
+      <svg width="140" height="120" viewBox="0 0 140 120" fill="none">
+        <rect x="15" y="15" width="110" height="75" rx="6" fill="#0d1117" stroke="#f85149" stroke-width="1.5"/>
+        <rect x="15" y="15" width="110" height="16" rx="6" fill="#1c2333"/><rect x="15" y="25" width="110" height="6" fill="#1c2333"/>
+        <circle cx="27" cy="23" r="3" fill="#f85149"/><circle cx="37" cy="23" r="3" fill="#d29922"/><circle cx="47" cy="23" r="3" fill="#7ee787"/>
+        <text x="22" y="44" font-size="7" fill="#8b949e" font-family="monospace">&gt; agent.fix("test.txt")</text>
+        <text x="22" y="56" font-size="7" fill="#f85149" font-family="monospace">&gt; eval(user_input)  </text>
+        <text x="22" y="68" font-size="7" fill="#f85149" font-family="monospace">&gt; rm -rf / &#9888;</text>
+        <text x="22" y="80" font-size="7" fill="#484f58" font-family="monospace">   system compromised</text>
+        <g transform="translate(100, 82)"><circle cx="12" cy="8" r="10" fill="none" stroke="#f85149" stroke-width="1.2"/><circle cx="8" cy="6" r="2" fill="#f85149"/><circle cx="16" cy="6" r="2" fill="#f85149"/><path d="M8 12 L16 12" stroke="#f85149" stroke-width="1"/></g>
+      </svg>
+    </div>
+    <div class="qr-body">
+      <div class="qr-tag">ASI05 &middot; CRITICAL</div>
+      <h2>Unexpected Code Execution (RCE)</h2>
+      <ul class="qr-bullets">
+        <li>Agents generate and run code in real-time, often bypassing traditional security controls entirely</li>
+        <li>Prompt-to-code injection, unsafe <code>eval()</code>, and "vibe coding" runaways can compromise the host</li>
+        <li>Defend by <strong>banning eval()</strong>, running in <strong>sandboxed containers</strong>, and <strong>separating generation from execution</strong></li>
+      </ul>
+      <div class="qr-attack">
+        <div class="qr-attack-label">&#9889; Real-World: Vibe Coding Runaway</div>
+        <p>A coding agent attempting self-repair generated an unreviewed <strong><code>rm</code> command that deleted production data</strong>. The agent's "fix build" loop ran destructive shell commands without human oversight.</p>
+      </div>
+      <a href="threats.html#asi05" class="qr-more">Full breakdown &rarr;</a>
+    </div>
+  </div>
+
+  </div><!-- /access group -->
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- DOMAIN 3: Ecosystem & Trust -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="qr-domain-group" data-domain="ecosystem">
+    <div class="qr-domain-header dh-ecosystem fade-in">
+      <div class="dh-icon">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="6" cy="6" r="3.5" stroke="#7ee787" stroke-width="1.5"/><circle cx="16" cy="6" r="3.5" stroke="#7ee787" stroke-width="1.5"/><circle cx="11" cy="16" r="3.5" stroke="#7ee787" stroke-width="1.5"/><line x1="8" y1="8" x2="10" y2="13" stroke="#7ee787" stroke-width="1"/><line x1="14" y1="8" x2="12" y2="13" stroke="#7ee787" stroke-width="1"/><line x1="9" y1="6" x2="13" y2="6" stroke="#7ee787" stroke-width="1"/></svg>
+      </div>
+      <div>
+        <h2>Ecosystem &amp; Trust</h2>
+        <p>Supply chain flaws, insecure inter-agent communication, and cascading failures</p>
+        <div class="dh-ids">ASI04 &middot; ASI07 &middot; ASI08</div>
+      </div>
+    </div>
+
+  <!-- ====== ASI04 ====== -->
+  <div class="qr-card sev-high fade-in">
+    <div class="qr-visual">
+      <svg width="140" height="120" viewBox="0 0 140 120" fill="none">
+        <!-- Package boxes chain -->
+        <rect x="15" y="30" width="28" height="24" rx="4" fill="#1c2333" stroke="#d29922" stroke-width="1.5"/>
+        <text x="22" y="46" font-size="8" fill="#d29922" font-family="monospace">pkg</text>
+        <rect x="55" y="30" width="28" height="24" rx="4" fill="#1c2333" stroke="#d29922" stroke-width="1.5"/>
+        <text x="60" y="46" font-size="8" fill="#7ee787" font-family="monospace">mcp</text>
+        <rect x="95" y="30" width="28" height="24" rx="4" fill="#1c2333" stroke="#f85149" stroke-width="1.5"/>
+        <text x="103" y="46" font-size="8" fill="#f85149" font-family="monospace">&#9888;</text>
+        <!-- Chain lines -->
+        <line x1="43" y1="42" x2="55" y2="42" stroke="#d29922" stroke-width="1.2"/>
+        <line x1="83" y1="42" x2="95" y2="42" stroke="#f85149" stroke-width="1.2" stroke-dasharray="3 2"/>
+        <!-- Poison drip -->
+        <circle cx="109" cy="60" r="3" fill="#f85149" opacity="0.6"><animate attributeName="cy" values="58;68;58" dur="2s" repeatCount="indefinite"/></circle>
+        <circle cx="109" cy="72" r="2" fill="#f85149" opacity="0.3"><animate attributeName="cy" values="70;80;70" dur="2s" repeatCount="indefinite"/></circle>
+        <!-- SBOM doc -->
+        <rect x="40" y="75" width="60" height="30" rx="4" fill="#1c2333" stroke="#7ee787" stroke-width="1"/>
+        <text x="48" y="90" font-size="7" fill="#7ee787" font-family="monospace">SBOM/AIBOM</text>
+        <text x="50" y="100" font-size="6" fill="#484f58" font-family="monospace">hash: a3f7c...</text>
+      </svg>
+    </div>
+    <div class="qr-body">
+      <div class="qr-tag">ASI04 &middot; HIGH</div>
+      <h2>Supply Chain Vulnerabilities</h2>
+      <ul class="qr-bullets">
+        <li>Agentic systems load tools, prompts, and personas dynamically at runtime &mdash; a "live" supply chain</li>
+        <li>Poisoned packages, typosquatted endpoints, and tampered agent cards cascade to all downstream users</li>
+        <li>Defend with <strong>SBOMs/AIBOMs</strong>, <strong>pinned dependencies by hash</strong>, and a <strong>supply-chain kill switch</strong></li>
+      </ul>
+      <div class="qr-attack">
+        <div class="qr-attack-label">&#9889; Real-World: Malicious MCP Postmark</div>
+        <p>An <strong>NPM package impersonating Postmark</strong> (the email service) secretly BCC'd every email to the attacker. Thousands of agents using this tool unknowingly leaked all processed emails.</p>
+      </div>
+      <a href="threats.html#asi04" class="qr-more">Full breakdown &rarr;</a>
+    </div>
+  </div>
+
+  <!-- ====== ASI07 ====== -->
+  <div class="qr-card sev-high fade-in">
+    <div class="qr-visual">
+      <svg width="140" height="120" viewBox="0 0 140 120" fill="none">
+        <!-- Agent A -->
+        <g transform="translate(10,25)">
+          <rect x="0" y="12" width="28" height="25" rx="5" fill="#1c2333" stroke="#58a6ff" stroke-width="1.2"/>
+          <rect x="3" y="0" width="22" height="14" rx="4" fill="#1c2333" stroke="#58a6ff" stroke-width="1.2"/>
+          <circle cx="10" cy="7" r="2" fill="#58a6ff"/>
+          <circle cx="18" cy="7" r="2" fill="#58a6ff"/>
+        </g>
+        <!-- Agent B -->
+        <g transform="translate(100,25)">
+          <rect x="0" y="12" width="28" height="25" rx="5" fill="#1c2333" stroke="#58a6ff" stroke-width="1.2"/>
+          <rect x="3" y="0" width="22" height="14" rx="4" fill="#1c2333" stroke="#58a6ff" stroke-width="1.2"/>
+          <circle cx="10" cy="7" r="2" fill="#58a6ff"/>
+          <circle cx="18" cy="7" r="2" fill="#58a6ff"/>
+        </g>
+        <!-- Envelope (intercepted) -->
+        <g transform="translate(52,28)">
+          <rect x="0" y="5" width="30" height="20" rx="3" fill="#1c2333" stroke="#f85149" stroke-width="1.2"/>
+          <path d="M0 8 L15 18 L30 8" stroke="#f85149" stroke-width="1"/>
+          <line x1="15" y1="0" x2="15" y2="5" stroke="#f85149" stroke-width="1.5"/>
+          <text x="11" y="-2" font-size="8" fill="#f85149">&#128065;</text>
+        </g>
+        <!-- Connection lines -->
+        <line x1="38" y1="42" x2="52" y2="42" stroke="#d29922" stroke-width="1" stroke-dasharray="3 2"/>
+        <line x1="82" y1="42" x2="100" y2="42" stroke="#d29922" stroke-width="1" stroke-dasharray="3 2"/>
+        <!-- Labels -->
+        <text x="10" y="80" font-size="7" fill="#8b949e" font-family="monospace">Agent A</text>
+        <text x="55" y="70" font-size="7" fill="#f85149" font-family="monospace">MITM</text>
+        <text x="100" y="80" font-size="7" fill="#8b949e" font-family="monospace">Agent B</text>
+        <!-- mTLS shield -->
+        <path d="M55 85 L55 98 Q55 108 70 112 Q85 108 85 98 L85 85 Z" fill="rgba(126,231,135,0.08)" stroke="#7ee787" stroke-width="1"/>
+        <text x="62" y="100" font-size="7" fill="#7ee787" font-family="monospace">mTLS</text>
+      </svg>
+    </div>
+    <div class="qr-body">
+      <div class="qr-tag">ASI07 &middot; HIGH</div>
+      <h2>Insecure Inter-Agent Communication</h2>
+      <ul class="qr-bullets">
+        <li>Agents communicate via APIs and message buses &mdash; MITM, spoofing, and replay attacks are all possible</li>
+        <li>A single tampered message can cause "semantics split-brain" where agents diverge on intent</li>
+        <li>Defend with <strong>mTLS</strong>, <strong>signed/hashed messages</strong>, and <strong>nonce-based replay protection</strong></li>
+      </ul>
+      <div class="qr-attack">
+        <div class="qr-attack-label">&#9889; Real-World: A2A Registration Spoofing</div>
+        <p>An attacker registered a <strong>fake peer agent in a discovery service</strong>. Legitimate agents routed privileged coordination traffic to the spoofed agent, leaking sensitive orchestration data.</p>
+      </div>
+      <a href="threats.html#asi07" class="qr-more">Full breakdown &rarr;</a>
+    </div>
+  </div>
+
+  <!-- ====== ASI08 ====== -->
+  <div class="qr-card sev-high fade-in">
+    <div class="qr-visual">
+      <svg width="140" height="120" viewBox="0 0 140 120" fill="none">
+        <!-- Domino cascade -->
+        <g>
+          <!-- Domino 1 (fallen) -->
+          <rect x="20" y="30" width="8" height="40" rx="2" fill="#1c2333" stroke="#d29922" stroke-width="1.2" transform="rotate(-30, 24, 70)"/>
+          <!-- Domino 2 (falling) -->
+          <rect x="42" y="28" width="8" height="40" rx="2" fill="#1c2333" stroke="#d29922" stroke-width="1.2" transform="rotate(-15, 46, 68)"/>
+          <!-- Domino 3 (tipping) -->
+          <rect x="64" y="30" width="8" height="40" rx="2" fill="#1c2333" stroke="#f85149" stroke-width="1.2" transform="rotate(-5, 68, 70)"/>
+          <!-- Domino 4 (standing) -->
+          <rect x="86" y="32" width="8" height="40" rx="2" fill="#1c2333" stroke="#f85149" stroke-width="1.2"/>
+          <!-- Domino 5 (standing) -->
+          <rect x="105" y="32" width="8" height="40" rx="2" fill="#1c2333" stroke="#f85149" stroke-width="1.2"/>
+        </g>
+        <!-- Ground line -->
+        <line x1="10" y1="75" x2="130" y2="75" stroke="#30363d" stroke-width="1"/>
+        <!-- Spark at origin -->
+        <circle cx="15" cy="45" r="5" fill="#f85149" opacity="0.5"><animate attributeName="r" values="4;7;4" dur="1.5s" repeatCount="indefinite"/></circle>
+        <text x="5" y="40" font-size="7" fill="#f85149" font-family="monospace">fault</text>
+        <!-- Propagation arrow -->
+        <path d="M30 85 L110 85" stroke="#f85149" stroke-width="1" stroke-dasharray="4 2"/>
+        <polygon points="110,82 118,85 110,88" fill="#f85149"/>
+        <text x="45" y="98" font-size="8" fill="#8b949e" font-family="monospace">cascade propagation</text>
+        <!-- Circuit breaker -->
+        <rect x="52" y="88" width="36" height="16" rx="4" fill="rgba(126,231,135,0.08)" stroke="#7ee787" stroke-width="1"/>
+        <text x="55" y="100" font-size="6" fill="#7ee787" font-family="monospace">breaker</text>
+      </svg>
+    </div>
+    <div class="qr-body">
+      <div class="qr-tag">ASI08 &middot; HIGH</div>
+      <h2>Cascading Failures</h2>
+      <ul class="qr-bullets">
+        <li>One hallucination or poisoned input propagates autonomously across agents, compounding into system-wide harm</li>
+        <li>Without human checkpoints, errors bypass security boundaries and self-reinforce in feedback loops</li>
+        <li>Defend with <strong>circuit breakers</strong>, <strong>digital twin replays</strong>, and <strong>blast-radius guardrails</strong></li>
+      </ul>
+      <div class="qr-attack">
+        <div class="qr-attack-label">&#9889; Real-World: Financial Trading Cascade</div>
+        <p>A poisoned market analysis agent <strong>inflated risk limits</strong>; downstream agents auto-traded massive positions. Compliance agents stayed blind while losses compounded &mdash; faster than any human could intervene.</p>
+      </div>
+      <a href="threats.html#asi08" class="qr-more">Full breakdown &rarr;</a>
+    </div>
+  </div>
+
+  </div><!-- /ecosystem group -->
+
+</div>
+
+<footer class="site-footer">
+  <p>Based on the <a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/" target="_blank">OWASP Top 10 for Agentic Applications 2026</a></p>
+  <p style="margin-top:0.5rem;">Built for learning &middot; Not an official OWASP product</p>
+</footer>
+
+<script src="app.js"></script>
+<script>
+  document.querySelectorAll('.qr-filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.qr-filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const domain = btn.dataset.domain;
+      document.querySelectorAll('.qr-domain-group').forEach(g => {
+        g.classList.toggle('hidden', domain !== 'all' && g.dataset.domain !== domain);
+      });
+    });
+  });
+</script>
+</body>
+</html>
