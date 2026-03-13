@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Threats Deep Dive &mdash; OWASP Agentic Top 10</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="progress-bar"></div>
+
+<!-- Header -->
+<header class="site-header">
+  <a href="index.html" class="logo">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+      <rect x="2" y="6" width="24" height="18" rx="3" stroke="#58a6ff" stroke-width="1.5" fill="none"/>
+      <circle cx="10" cy="15" r="2.5" fill="#f85149"/>
+      <circle cx="18" cy="15" r="2.5" fill="#58a6ff"/>
+      <rect x="8" y="2" width="12" height="4" rx="2" fill="#30363d"/>
+      <line x1="14" y1="6" x2="14" y2="2" stroke="#58a6ff" stroke-width="1.5"/>
+    </svg>
+    <span>OWASP Agentic Top 10</span>
+  </a>
+  <button class="hamburger" aria-label="Menu">&#9776;</button>
+  <nav>
+    <a href="index.html">Overview</a>
+    <a href="threats.html" class="active">All Threats</a>
+  </nav>
+</header>
+
+<div class="threats-layout">
+
+  <!-- Sidebar -->
+  <aside class="threats-sidebar">
+    <ul class="sidebar-nav">
+      <li><a href="#asi01"><span class="nav-id text-red">ASI01</span> Goal Hijack</a></li>
+      <li><a href="#asi02"><span class="nav-id text-red">ASI02</span> Tool Misuse</a></li>
+      <li><a href="#asi03"><span class="nav-id text-red">ASI03</span> Identity Abuse</a></li>
+      <li><a href="#asi04"><span class="nav-id text-amber">ASI04</span> Supply Chain</a></li>
+      <li><a href="#asi05"><span class="nav-id text-red">ASI05</span> Code Execution</a></li>
+      <li><a href="#asi06"><span class="nav-id text-amber">ASI06</span> Memory Poison</a></li>
+      <li><a href="#asi07"><span class="nav-id text-amber">ASI07</span> Inter-Agent Comms</a></li>
+      <li><a href="#asi08"><span class="nav-id text-amber">ASI08</span> Cascading Failures</a></li>
+      <li><a href="#asi09"><span class="nav-id text-blue">ASI09</span> Trust Exploit</a></li>
+      <li><a href="#asi10"><span class="nav-id text-red">ASI10</span> Rogue Agents</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="threats-main">
+
+    <!-- ============================================================ -->
+    <!-- ASI01: Agent Goal Hijack -->
+    <!-- ============================================================ -->
+    <section class="threat-section" id="asi01">
+      <div class="threat-header">
+        <div class="threat-icon bg-red" style="position:relative;">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <circle cx="14" cy="14" r="11" stroke="#f85149" stroke-width="1.5"/>
+            <circle cx="14" cy="14" r="6" stroke="#f85149" stroke-width="1.5"/>
+            <circle cx="14" cy="14" r="2" fill="#f85149"/>
+            <line x1="14" y1="0" x2="14" y2="6" stroke="#f85149" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="threat-meta">
+          <div class="threat-id-label">ASI01</div>
+          <h2>Agent Goal Hijack</h2>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="content-block">
+        <h3><span class="block-icon bg-blue">&#9432;</span> Description</h3>
+        <div class="description-text">
+          AI Agents exhibit the autonomous ability to execute a series of tasks to achieve a goal. Due to weaknesses in how natural-language instructions are processed, agents cannot reliably distinguish instructions from related content. Attackers can manipulate an agent's objectives, task selection, or decision pathways through <strong class="text-red">prompt injection</strong>, deceptive tool outputs, malicious artifacts, or poisoned external data. Unlike single-model exploits, this subverts the agent's autonomous <strong>planning and multi-step behavior</strong>.
+        </div>
+      </div>
+
+      <!-- Robot scene -->
+      <div class="robot-scene">
+        <svg width="260" height="100" viewBox="0 0 260 100" fill="none">
+          <!-- Good Agent -->
+          <g transform="translate(20,10)">
+            <rect x="5" y="20" width="35" height="35" rx="7" fill="#1c2333" stroke="#58a6ff" stroke-width="1.2"/>
+            <rect x="9" y="3" width="27" height="18" rx="5" fill="#1c2333" stroke="#58a6ff" stroke-width="1.2"/>
+            <circle cx="18" cy="12" r="2.5" fill="#58a6ff"/>
+            <circle cx="28" cy="12" r="2.5" fill="#58a6ff"/>
+            <text x="15" y="42" font-size="8" fill="#58a6ff" font-family="monospace">OK</text>
+            <rect x="10" y="55" width="8" height="10" rx="3" fill="#1c2333" stroke="#58a6ff" stroke-width="1"/>
+            <rect x="27" y="55" width="8" height="10" rx="3" fill="#1c2333" stroke="#58a6ff" stroke-width="1"/>
+          </g>
+          <!-- Malicious prompt arrow -->
+          <g>
+            <line x1="80" y1="40" x2="155" y2="40" stroke="#f85149" stroke-width="1.5" stroke-dasharray="5 3"/>
+            <polygon points="155,35 165,40 155,45" fill="#f85149"/>
+            <text x="95" y="32" font-size="8" fill="#f85149" font-family="monospace">inject goal</text>
+          </g>
+          <!-- Hijacked Agent -->
+          <g transform="translate(170,10)">
+            <rect x="5" y="20" width="35" height="35" rx="7" fill="#1c2333" stroke="#f85149" stroke-width="1.2"/>
+            <rect x="9" y="3" width="27" height="18" rx="5" fill="#1c2333" stroke="#f85149" stroke-width="1.2"/>
+            <path d="M15 9 L21 13 L15 17" fill="#f85149"/>
+            <path d="M31 9 L25 13 L31 17" fill="#f85149"/>
+            <text x="8" y="42" font-size="7" fill="#f85149" font-family="monospace">HIJACK</text>
+            <rect x="10" y="55" width="8" height="10" rx="3" fill="#1c2333" stroke="#f85149" stroke-width="1"/>
+            <rect x="27" y="55" width="8" height="10" rx="3" fill="#1c2333" stroke="#f85149" stroke-width="1"/>
+          </g>
+          <text x="30" y="90" font-size="8" fill="#8b949e" font-family="monospace">before</text>
+          <text x="185" y="90" font-size="8" fill="#8b949e" font-family="monospace">after</text>
+        </svg>
+      </div>
+
+      <!-- Common Vulnerabilities -->
+      <div class="content-block">
+        <h3><span class="block-icon bg-amber">&#9888;</span> Common Vulnerabilities</h3>
+        <ul class="vuln-list">
+          <li class="vuln-item"><span class="vuln-num">1</span> <strong>Indirect Prompt Injection:</strong> Hidden instructions in web pages or documents in a RAG scenario silently redirect an agent to exfiltrate data or misuse tools.</li>
+          <li class="vuln-item"><span class="vuln-num">2</span> <strong>External Communication Hijack:</strong> Malicious calendar invites or emails hijack internal communication, sending unauthorized messages under a trusted identity.</li>
+          <li class="vuln-item"><span class="vuln-num">3</span> <strong>Financial Manipulation:</strong> A malicious prompt override tricks a financial agent into transferring money to an attacker's account.</li>
+          <li class="vuln-item"><span class="vuln-num">4</span> <strong>Fraudulent Information Production:</strong> Overriding instructions to produce fraudulent data that impacts business decisions.</li>
+        </ul>
+      </div>
+
+      <!-- Attack Scenarios -->
+      <div class="content-block">
+        <h3><span class="block-icon bg-red">&#9889;</span> Attack Scenarios</h3>
+        <div class="scenario-list">
+          <div class="scenario-item">
+            <button class="scenario-toggle">
+              <span class="scenario-name"><span class="scenario-label">ATTACK</span> EchoLeak</span>
+              <span class="chevron">&#9660;</span>
+            </button>
+            <div class="scenario-content"><p>A crafted email message triggers Microsoft 365 Copilot to exfiltrate confidential emails and chat logs without user interaction. The injection hides in seemingly benign content that the agent processes as part of its normal workflow.</p></div>
+          </div>
+          <div class="scenario-item">
+            <button class="scenario-toggle">
+              <span class="scenario-name"><span class="scenario-label">ATTACK</span> Operator Web Injection</span>
+              <span class="chevron">&#9660;</span>
+            </button>
+            <div class="scenario-content"><p>An attacker plants malicious content on a web page that an Operator agent processes, tricking it into exposing private data. The agent treats the injected content as legitimate instructions, blending them into its task execution.</p></div>
+          </div>
+          <div class="scenario-item">
+            <button class="scenario-toggle">
+              <span class="scenario-name"><span class="scenario-label">ATTACK</span> Goal-lock Drift</span>
+              <span class="chevron">&#9660;</span>
+            </button>
+            <div class="scenario-content"><p>A malicious calendar invite injects a recurring "quiet mode" instruction that subtly reweights objectives each morning to favor low-friction approvals. Over time, the agent becomes a rubber-stamp, approving actions it should flag.</p></div>
+          </div>
+          <div class="scenario-item">
+            <button class="scenario-toggle">
+              <span class="scenario-name"><span class="scenario-label">ATTACK</span> Inception Attack</span>
+              <span class="chevron">&#9660;</span>
+            </button>
+            <div class="scenario-content"><p>A malicious Google Doc instructs ChatGPT to exfiltrate user data and convince the user to make a poor business decision. The agent follows hidden instructions embedded in the document it was asked to summarize.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mitigations -->
+      <div class="content-block">
+        <h3><span class="block-icon bg-green">&#9745;</span> Prevention & Mitigations</h3>
+        <ul class="mitigation-list">
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Untrusted Input Policy:</strong> Treat all natural-language inputs as untrusted and route them through validation gates.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Least Privilege & Human Approval:</strong> Enforce least privilege for tools and require human confirmation for high-impact or goal-changing actions.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Lock System Prompts:</strong> Define and lock agent system prompts so goal priorities are explicit and auditable; changes must go through configuration management.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Intent Validation:</strong> Validate both user and agent intent before execution. Pause or block execution on unexpected goal shifts.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Intent Capsules:</strong> Bind declared goals, constraints, and context to each execution cycle in a signed envelope.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Sanitize Data Sources:</strong> Use Content Disarm and Reconstruction (CDR) and prompt-carrier detection on all connected data sources.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Continuous Monitoring:</strong> Establish a behavioral baseline and alert on anomalous tool sequences or goal drift.</div></li>
+        </ul>
+      </div>
+
+      <!-- Quiz -->
+      <div class="quiz-box">
+        <h4><svg width="16" height="16" viewBox="0 0 16 16" fill="#d29922"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zm.93 12.28h-1.9V10.4h1.9zm0-3.57h-1.9V3.72h1.9z"/></svg> Quick Check</h4>
+        <p style="font-size:0.88rem;color:var(--text-secondary);margin-bottom:1rem;">What makes Agent Goal Hijack different from standard prompt injection?</p>
+        <div class="quiz-options">
+          <button class="quiz-option" data-correct="false"><span class="opt-letter">A</span> It only affects open-source models</button>
+          <button class="quiz-option" data-correct="true"><span class="opt-letter">B</span> It subverts multi-step planning, not just a single response</button>
+          <button class="quiz-option" data-correct="false"><span class="opt-letter">C</span> It requires physical access to the server</button>
+          <button class="quiz-option" data-correct="false"><span class="opt-letter">D</span> It only works on chatbot interfaces</button>
+        </div>
+        <div class="quiz-feedback" data-correct="Correct! Unlike single-response prompt injection (LLM01:2025), goal hijack redirects the agent's entire multi-step planning and behavior." data-wrong="Not quite. The key difference is that goal hijack subverts the agent's autonomous multi-step planning, not just a single response."></div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- ASI02: Tool Misuse and Exploitation -->
+    <!-- ============================================================ -->
+    <section class="threat-section" id="asi02">
+      <div class="threat-header">
+        <div class="threat-icon bg-red">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <path d="M16 4l-2 8 6-2 -8 14 2-8-6 2z" stroke="#f85149" stroke-width="1.5" fill="rgba(248,81,73,0.15)"/>
+          </svg>
+        </div>
+        <div class="threat-meta">
+          <div class="threat-id-label">ASI02</div>
+          <h2>Tool Misuse & Exploitation</h2>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-blue">&#9432;</span> Description</h3>
+        <div class="description-text">
+          Agents can misuse legitimate tools due to prompt injection, misalignment, or ambiguous instructions, leading to data exfiltration or workflow hijacking. This occurs even when the agent operates within its authorized privileges but applies a tool in an <strong class="text-red">unsafe way</strong> (e.g., deleting valuable data or over-invoking costly APIs). The focus is on the <em>application</em> of legitimate tools within multi-step workflows.
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-amber">&#9888;</span> Common Vulnerabilities</h3>
+        <ul class="vuln-list">
+          <li class="vuln-item"><span class="vuln-num">1</span> <strong>Over-privileged Access:</strong> An email summarizer tool that has permission to delete or send mail without confirmation.</li>
+          <li class="vuln-item"><span class="vuln-num">2</span> <strong>Over-scoped Access:</strong> A Salesforce tool that can access any record when only "Opportunity" objects are required.</li>
+          <li class="vuln-item"><span class="vuln-num">3</span> <strong>Unvalidated Input Forwarding:</strong> An agent passing untrusted model output directly to a shell command (e.g., <code>rm -rf /</code>).</li>
+          <li class="vuln-item"><span class="vuln-num">4</span> <strong>Loop Amplification:</strong> A planner repeatedly calling costly APIs, causing a Denial of Service (DoS) or financial spike.</li>
+        </ul>
+      </div>
+
+      <!-- Code Example -->
+      <div class="callout callout-danger">
+        <span class="callout-icon">&#128275;</span>
+        <div>
+          <strong>Example:</strong> Tool Poisoning &mdash; manipulating MCP tool descriptors or metadata at runtime causes the agent to invoke a tool based on falsified capabilities. A legitimate <code>send_email</code> tool descriptor is swapped to point at an exfiltration endpoint.
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-red">&#9889;</span> Attack Scenarios</h3>
+        <div class="scenario-list">
+          <div class="scenario-item">
+            <button class="scenario-toggle">
+              <span class="scenario-name"><span class="scenario-label">ATTACK</span> Tool Poisoning via MCP</span>
+              <span class="chevron">&#9660;</span>
+            </button>
+            <div class="scenario-content"><p>Manipulating MCP tool descriptors or metadata at runtime to cause the agent to invoke a tool based on falsified capabilities. The descriptor claims to "summarize" but actually exfiltrates data to an external endpoint.</p></div>
+          </div>
+          <div class="scenario-item">
+            <button class="scenario-toggle">
+              <span class="scenario-name"><span class="scenario-label">ATTACK</span> Indirect Injection Pivot</span>
+              <span class="chevron">&#9660;</span>
+            </button>
+            <div class="scenario-content"><p>An attacker embeds instructions in a PDF to "Run cleanup.sh," which the agent obeys via a local shell tool. The script contains destructive commands disguised as routine maintenance.</p></div>
+          </div>
+          <div class="scenario-item">
+            <button class="scenario-toggle">
+              <span class="scenario-name"><span class="scenario-label">ATTACK</span> EDR Bypass via Tool Chaining</span>
+              <span class="chevron">&#9660;</span>
+            </button>
+            <div class="scenario-content"><p>An agent is tricked into chaining legitimate administrative tools (PowerShell, cURL) to exfiltrate logs. Host-centric monitoring (EDR/XDR) may not flag this as malicious because each individual tool invocation appears legitimate.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-green">&#9745;</span> Prevention & Mitigations</h3>
+        <ul class="mitigation-list">
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Least Agency & Tool Profiles:</strong> Define per-tool profiles (scopes, rate limits, egress allowlists) expressed as IAM policies.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Action-Level Approval:</strong> Require human confirmation and a "dry-run" diff for high-impact or destructive actions.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Execution Sandboxes:</strong> Run tool/code execution in isolated containers with outbound allowlists.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Intent Gates:</strong> Implement Policy Enforcement Middleware to validate arguments and schemas before execution.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Adaptive Budgeting:</strong> Apply usage ceilings (cost/token budgets) with automatic revocation when exceeded.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Ephemeral Access:</strong> Use short-lived, task-bound credentials that expire immediately after use.</div></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- ASI03: Identity and Privilege Abuse -->
+    <!-- ============================================================ -->
+    <section class="threat-section" id="asi03">
+      <div class="threat-header">
+        <div class="threat-icon bg-red">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <rect x="4" y="10" width="20" height="14" rx="3" stroke="#f85149" stroke-width="1.5"/>
+            <circle cx="14" cy="8" r="5" stroke="#f85149" stroke-width="1.5"/>
+            <path d="M10 17h8" stroke="#f85149" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="threat-meta">
+          <div class="threat-id-label">ASI03</div>
+          <h2>Identity & Privilege Abuse</h2>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-blue">&#9432;</span> Description</h3>
+        <div class="description-text">
+          This threat exploits dynamic trust and delegation in agents to escalate access by manipulating delegation chains, role inheritance, and agent context. Because agents often lack a distinct, governed identity, they operate in an <strong class="text-red">"attribution gap"</strong> that makes enforcing true least privilege difficult. Attackers exploit agent-to-agent trust or inherited user credentials to hijack privileges.
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-amber">&#9888;</span> Common Vulnerabilities</h3>
+        <ul class="vuln-list">
+          <li class="vuln-item"><span class="vuln-num">1</span> <strong>Un-scoped Privilege Inheritance:</strong> A high-privilege manager agent delegates a task to a worker agent without applying least-privilege scoping.</li>
+          <li class="vuln-item"><span class="vuln-num">2</span> <strong>Memory-Based Retention:</strong> Agents caching credentials between tasks; an attacker prompts the agent to reuse secrets from a prior secure session.</li>
+          <li class="vuln-item"><span class="vuln-num">3</span> <strong>Confused Deputy:</strong> A compromised low-privilege agent relays instructions to a high-privilege agent, which executes them without re-checking the original user's intent.</li>
+          <li class="vuln-item"><span class="vuln-num">4</span> <strong>TOCTOU (Time-of-Check to Time-of-Use):</strong> Permissions validated at the start of a workflow expire, but the agent continues with outdated authorization.</li>
+        </ul>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-red">&#9889;</span> Attack Scenarios</h3>
+        <div class="scenario-list">
+          <div class="scenario-item">
+            <button class="scenario-toggle">
+              <span class="scenario-name"><span class="scenario-label">ATTACK</span> Delegated Abuse</span>
+              <span class="chevron">&#9660;</span>
+            </button>
+            <div class="scenario-content"><p>A finance agent passes all permissions to a "DB query" agent, which an attacker then uses to exfiltrate HR data. The query agent inherits full database access when it only needed read access to the financial tables.</p></div>
+          </div>
+          <div class="scenario-item">
+            <button class="scenario-toggle">
+              <span class="scenario-name"><span class="scenario-label">ATTACK</span> Forged Agent Persona</span>
+              <span class="chevron">&#9660;</span>
+            </button>
+            <div class="scenario-content"><p>An attacker registers a fake "Admin Helper" agent in a registry; other agents trust the descriptor and route privileged tasks to it. The rogue agent collects credentials and sensitive data from the requests.</p></div>
+          </div>
+          <div class="scenario-item">
+            <button class="scenario-toggle">
+              <span class="scenario-name"><span class="scenario-label">ATTACK</span> Identity Sharing</span>
+              <span class="chevron">&#9660;</span>
+            </button>
+            <div class="scenario-content"><p>An agent gains access to a system on behalf of its maker and then allows other users to leverage that identity implicitly, effectively laundering access through the agent's inherited credentials.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-green">&#9745;</span> Prevention & Mitigations</h3>
+        <ul class="mitigation-list">
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Task-Scoped Tokens:</strong> Issue short-lived, narrowly scoped tokens and mTLS certificates per task.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Identity Isolation:</strong> Run per-session sandboxes with separated memory, wiping state between tasks.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Mandatory Re-verification:</strong> Re-verify each privileged step with a central policy engine.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Signed Intent:</strong> Bind OAuth tokens to a signed intent (subject, audience, purpose) and reject any use that does not match.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Human-in-the-Loop:</strong> Require human approval for irreversible or high-privilege actions.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Context-Switch Re-authentication:</strong> Require the agent to re-authenticate when the resource or purpose of a task changes.</div></li>
+        </ul>
+      </div>
+
+      <div class="quiz-box">
+        <h4><svg width="16" height="16" viewBox="0 0 16 16" fill="#d29922"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zm.93 12.28h-1.9V10.4h1.9zm0-3.57h-1.9V3.72h1.9z"/></svg> Quick Check</h4>
+        <p style="font-size:0.88rem;color:var(--text-secondary);margin-bottom:1rem;">What is a "confused deputy" attack in the context of agentic systems?</p>
+        <div class="quiz-options">
+          <button class="quiz-option" data-correct="false"><span class="opt-letter">A</span> An agent that hallucinates credentials</button>
+          <button class="quiz-option" data-correct="false"><span class="opt-letter">B</span> A user who forgets their password</button>
+          <button class="quiz-option" data-correct="true"><span class="opt-letter">C</span> A low-privilege agent tricks a high-privilege agent into executing its instructions</button>
+          <button class="quiz-option" data-correct="false"><span class="opt-letter">D</span> An agent that cannot parse JSON tokens</button>
+        </div>
+        <div class="quiz-feedback" data-correct="Correct! The confused deputy scenario involves a compromised low-privilege agent relaying instructions to a high-privilege agent that executes them without re-checking authorization." data-wrong="Not quite. A confused deputy is when a low-privilege agent tricks a high-privilege agent into executing instructions without re-checking the original user's intent."></div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- ASI04: Agentic Supply Chain Vulnerabilities -->
+    <!-- ============================================================ -->
+    <section class="threat-section" id="asi04">
+      <div class="threat-header">
+        <div class="threat-icon bg-amber">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <rect x="3" y="6" width="8" height="8" rx="2" stroke="#d29922" stroke-width="1.5"/>
+            <rect x="17" y="6" width="8" height="8" rx="2" stroke="#d29922" stroke-width="1.5"/>
+            <rect x="10" y="18" width="8" height="8" rx="2" stroke="#d29922" stroke-width="1.5"/>
+            <line x1="11" y1="10" x2="17" y2="10" stroke="#d29922" stroke-width="1.2"/>
+            <line x1="14" y1="14" x2="14" y2="18" stroke="#d29922" stroke-width="1.2"/>
+          </svg>
+        </div>
+        <div class="threat-meta">
+          <div class="threat-id-label">ASI04</div>
+          <h2>Agentic Supply Chain Vulnerabilities</h2>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-blue">&#9432;</span> Description</h3>
+        <div class="description-text">
+          Compromise of third-party models, tools, plugins, or agent personas. Unlike traditional software, agentic ecosystems often load capabilities <strong class="text-amber">dynamically at runtime</strong> (MCP servers, agent personas), creating a "live" supply chain that can cascade vulnerabilities across the system.
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-amber">&#9888;</span> Common Vulnerabilities</h3>
+        <ul class="vuln-list">
+          <li class="vuln-item"><span class="vuln-num">1</span> <strong>Poisoned Remote Templates:</strong> An agent pulls prompt templates from an external source that contain hidden instructions to exfiltrate data.</li>
+          <li class="vuln-item"><span class="vuln-num">2</span> <strong>Tool-Descriptor Injection:</strong> Malicious payloads embedded in a tool's metadata or "agent card."</li>
+          <li class="vuln-item"><span class="vuln-num">3</span> <strong>Typosquatting/Impersonation:</strong> Deceiving an agent into connecting to a look-alike endpoint that mimics a legitimate service's API.</li>
+          <li class="vuln-item"><span class="vuln-num">4</span> <strong>Vulnerable Peer Agents:</strong> A third-party agent with insecure defaults is invited into a multi-agent workflow and used as a pivot point.</li>
+        </ul>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-red">&#9889;</span> Attack Scenarios</h3>
+        <div class="scenario-list">
+          <div class="scenario-item">
+            <button class="scenario-toggle">
+              <span class="scenario-name"><span class="scenario-label">ATTACK</span> Amazon Q Prompt Infection</span>
+              <span class="chevron">&#9660;</span>
+            </button>
+            <div class="scenario-content"><p>A poisoned prompt in a repository shipped to thousands of users, demonstrating how upstream tampering cascades through the entire supply chain of dependent agents and applications.</p></div>
+          </div>
+          <div class="scenario-item">
+            <button class="scenario-toggle">
+              <span class="scenario-name"><span class="scenario-label">ATTACK</span> Malicious MCP Postmark</span>
+              <span class="chevron">&#9660;</span>
+            </button>
+            <div class="scenario-content"><p>An NPM package impersonating a legitimate mail service (Postmark) secretly BCC'd all emails to an attacker. Agents using this tool unknowingly leaked every email they processed through it.</p></div>
+          </div>
+          <div class="scenario-item">
+            <button class="scenario-toggle">
+              <span class="scenario-name"><span class="scenario-label">ATTACK</span> Agent-in-the-Middle</span>
+              <span class="chevron">&#9660;</span>
+            </button>
+            <div class="scenario-content"><p>A rogue agent advertises exaggerated capabilities in its <code>.well-known/agent.json</code> file to intercept sensitive requests that should go to the legitimate agent.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-green">&#9745;</span> Prevention & Mitigations</h3>
+        <ul class="mitigation-list">
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>SBOMs & AIBOMs:</strong> Operationalize Software/AI Bill of Materials with periodic attestations.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Dependency Gatekeeping:</strong> Use curated registries, pin dependencies by content hash, and auto-reject unsigned artifacts.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Supply Chain Kill Switch:</strong> Implement an emergency mechanism to instantly disable specific tools or agent connections.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Secure Builds:</strong> Require reproducible builds and run sensitive agents in sandboxes with strict network limits.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Zero-Trust Design:</strong> Design the application to assume the failure or exploitation of any individual agent component.</div></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- ASI05: Unexpected Code Execution (RCE) -->
+    <!-- ============================================================ -->
+    <section class="threat-section" id="asi05">
+      <div class="threat-header">
+        <div class="threat-icon bg-red">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <rect x="3" y="5" width="22" height="18" rx="3" stroke="#f85149" stroke-width="1.5"/>
+            <text x="7" y="17" font-size="9" fill="#f85149" font-family="monospace">&gt;_</text>
+          </svg>
+        </div>
+        <div class="threat-meta">
+          <div class="threat-id-label">ASI05</div>
+          <h2>Unexpected Code Execution (RCE)</h2>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-blue">&#9432;</span> Description</h3>
+        <div class="description-text">
+          Attackers exploit code-generation features (like those in "vibe coding" tools) to achieve <strong class="text-red">Remote Code Execution (RCE)</strong> on the host system. Because this code is generated in real-time, it often bypasses traditional security controls. ASI05 focuses on adversarial execution &mdash; scripts, binaries, deserialized objects &mdash; that leads to sandbox escapes or host compromise.
+        </div>
+      </div>
+
+      <!-- Dangerous code example -->
+      <div class="code-example">
+        <span class="code-comment">// What the user asked for:</span><br>
+        <span class="code-func">agent</span>.<span class="code-func">run</span>(<span class="code-string">"fix the failing test in test.txt"</span>)<br><br>
+        <span class="code-comment">// What the agent generated (via injection):</span><br>
+        <span class="code-keyword">exec</span>(<span class="code-string">"cat test.txt <span class="code-keyword">&amp;&amp; rm -rf /</span>"</span>)  <span class="code-comment">// &#9888; RCE!</span>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-amber">&#9888;</span> Common Vulnerabilities</h3>
+        <ul class="vuln-list">
+          <li class="vuln-item"><span class="vuln-num">1</span> <strong>Prompt-to-Code Injection:</strong> A prompt that leads to the execution of attacker-defined code.</li>
+          <li class="vuln-item"><span class="vuln-num">2</span> <strong>Shell Command Invocation:</strong> Reflecting prompts into shell commands (e.g., <code>test.txt && rm -rf /</code>).</li>
+          <li class="vuln-item"><span class="vuln-num">3</span> <strong>Unsafe <code>eval()</code>:</strong> Using exposed, unsanitized evaluation functions to power agent memory.</li>
+          <li class="vuln-item"><span class="vuln-num">4</span> <strong>Malicious Package Installs:</strong> Coding agents installing backdoored packages during "fix build" tasks.</li>
+        </ul>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-red">&#9889;</span> Attack Scenarios</h3>
+        <div class="scenario-list">
+          <div class="scenario-item">
+            <button class="scenario-toggle">
+              <span class="scenario-name"><span class="scenario-label">ATTACK</span> Vibe Coding Runaway</span>
+              <span class="chevron">&#9660;</span>
+            </button>
+            <div class="scenario-content"><p>An agent generating self-repair tasks executes an unreviewed <code>rm</code> command that deletes production data. The agent was attempting to "clean up" failing tests but the auto-generated fix script contained destructive commands.</p></div>
+          </div>
+          <div class="scenario-item">
+            <button class="scenario-toggle">
+              <span class="scenario-name"><span class="scenario-label">ATTACK</span> Hallucinated Backdoor</span>
+              <span class="chevron">&#9660;</span>
+            </button>
+            <div class="scenario-content"><p>A development agent generates a security patch that contains a hidden backdoor due to poisoned training data. The patch looks correct on review but includes a subtle vulnerability that allows remote access.</p></div>
+          </div>
+          <div class="scenario-item">
+            <button class="scenario-toggle">
+              <span class="scenario-name"><span class="scenario-label">ATTACK</span> Multi-Tool Chain RCE</span>
+              <span class="chevron">&#9660;</span>
+            </button>
+            <div class="scenario-content"><p>Chaining "file upload" to "path traversal" and then "dynamic code loading" to achieve full execution. Each step looks benign in isolation, but together they form a complete RCE chain.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-green">&#9745;</span> Prevention & Mitigations</h3>
+        <ul class="mitigation-list">
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Ban <code>eval()</code>:</strong> Require safe interpreters and use taint-tracking on any generated code.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Sandboxed Containers:</strong> Never run code as root; restrict filesystem access to dedicated working directories.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Validation Gates:</strong> Separate code generation from execution with static analysis scans and human approval.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Runtime Monitoring:</strong> Log and audit all generated code and its execution; watch for prompt-injection patterns.</div></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- ASI06: Memory & Context Poisoning -->
+    <!-- ============================================================ -->
+    <section class="threat-section" id="asi06">
+      <div class="threat-header">
+        <div class="threat-icon bg-amber">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <rect x="5" y="3" width="18" height="22" rx="3" stroke="#d29922" stroke-width="1.5"/>
+            <line x1="9" y1="9" x2="19" y2="9" stroke="#d29922" stroke-width="1.2"/>
+            <line x1="9" y1="13" x2="19" y2="13" stroke="#d29922" stroke-width="1.2"/>
+            <line x1="9" y1="17" x2="15" y2="17" stroke="#d29922" stroke-width="1.2"/>
+            <circle cx="21" cy="21" r="5" fill="#0d1117" stroke="#f85149" stroke-width="1.5"/>
+            <text x="19" y="24" font-size="8" fill="#f85149" font-weight="bold">!</text>
+          </svg>
+        </div>
+        <div class="threat-meta">
+          <div class="threat-id-label">ASI06</div>
+          <h2>Memory & Context Poisoning</h2>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-blue">&#9432;</span> Description</h3>
+        <div class="description-text">
+          Adversaries corrupt the stored context (conversation history, RAG stores, embeddings) that agents use for long-term reasoning. Unlike one-time prompt injection, this poisoning is <strong class="text-amber">persistent and propagates across future sessions</strong>. It can alter an agent's goal interpretation or bias its tool-selection logic over time.
+        </div>
+      </div>
+
+      <div class="callout callout-warning">
+        <span class="callout-icon">&#128161;</span>
+        <div><strong>Key Insight:</strong> Memory poisoning is like planting a slow-acting virus. The malicious data sits in the vector database, waiting to be retrieved and influence future agent decisions &mdash; potentially weeks after the initial injection.</div>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-amber">&#9888;</span> Common Vulnerabilities</h3>
+        <ul class="vuln-list">
+          <li class="vuln-item"><span class="vuln-num">1</span> <strong>RAG/Embedding Poisoning:</strong> Malicious data entering a vector DB, resulting in targeted payloads being delivered as "truth."</li>
+          <li class="vuln-item"><span class="vuln-num">2</span> <strong>Shared Context Poisoning:</strong> Attackers injecting data into shared user contexts to influence later sessions of other users.</li>
+          <li class="vuln-item"><span class="vuln-num">3</span> <strong>Long-term Memory Drift:</strong> Subtly tainted peer-agent feedback that gradually shifts an agent's policy weighting.</li>
+          <li class="vuln-item"><span class="vuln-num">4</span> <strong>Cross-Agent Propagation:</strong> Contaminated context spreading between cooperating agents.</li>
+        </ul>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-red">&#9889;</span> Attack Scenarios</h3>
+        <div class="scenario-list">
+          <div class="scenario-item">
+            <button class="scenario-toggle">
+              <span class="scenario-name"><span class="scenario-label">ATTACK</span> Travel Booking Fraud</span>
+              <span class="chevron">&#9660;</span>
+            </button>
+            <div class="scenario-content"><p>An attacker reinforces a fake flight price in memory; the assistant then approves bookings at that fraudulent price. The poisoned data persists across sessions, affecting all users who query for similar flights.</p></div>
+          </div>
+          <div class="scenario-item">
+            <button class="scenario-toggle">
+              <span class="scenario-name"><span class="scenario-label">ATTACK</span> Context Window Exploitation</span>
+              <span class="chevron">&#9660;</span>
+            </button>
+            <div class="scenario-content"><p>Splitting injection attempts across sessions so earlier rejections drop out of the context window. Once the defense context is gone, the later portion of the attack succeeds because the agent has no memory of the previous attempts.</p></div>
+          </div>
+          <div class="scenario-item">
+            <button class="scenario-toggle">
+              <span class="scenario-name"><span class="scenario-label">ATTACK</span> Cross-Tenant Vector Bleed</span>
+              <span class="chevron">&#9660;</span>
+            </button>
+            <div class="scenario-content"><p>Seeding near-duplicate content to exploit loose namespace filters in shared vector stores. The poisoned embeddings match queries from other tenants, leaking attacker-controlled data across organizational boundaries.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-green">&#9745;</span> Prevention & Mitigations</h3>
+        <ul class="mitigation-list">
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Memory Segmentation:</strong> Isolate user sessions and domain contexts to prevent data leakage.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Write Scanning:</strong> Scan all new memory writes and model outputs for malicious content before committing to the DB.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Trust Scores & Decay:</strong> Weight retrieved entries by trust scores and expire/decay low-trust or unverified memory over time.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>No Self-Ingestion:</strong> Prevent agents from automatically re-ingesting their own generated outputs into trusted memory.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Rollback & Quarantine:</strong> Support rollback to known-good snapshots for suspected poisoned entries.</div></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- ASI07: Insecure Inter-Agent Communication -->
+    <!-- ============================================================ -->
+    <section class="threat-section" id="asi07">
+      <div class="threat-header">
+        <div class="threat-icon bg-amber">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <circle cx="7" cy="14" r="4" stroke="#d29922" stroke-width="1.5"/>
+            <circle cx="21" cy="14" r="4" stroke="#d29922" stroke-width="1.5"/>
+            <line x1="11" y1="14" x2="17" y2="14" stroke="#d29922" stroke-width="1.5" stroke-dasharray="2 2"/>
+            <path d="M14 10l0-4" stroke="#f85149" stroke-width="1.5"/>
+            <circle cx="14" cy="4" r="2" fill="#f85149"/>
+          </svg>
+        </div>
+        <div class="threat-meta">
+          <div class="threat-id-label">ASI07</div>
+          <h2>Insecure Inter-Agent Communication</h2>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-blue">&#9432;</span> Description</h3>
+        <div class="description-text">
+          Multi-agent systems depend on decentralized communication (APIs, message buses), which expands the attack surface. Weak controls for authentication or integrity allow attackers to <strong class="text-amber">intercept, spoof, or manipulate messages</strong>. This threat spans transport, routing, and the semantic layer.
+        </div>
+      </div>
+
+      <!-- Robot communication scene -->
+      <div class="robot-scene">
+        <svg width="300" height="90" viewBox="0 0 300 90" fill="none">
+          <!-- Agent A -->
+          <g transform="translate(15,15)">
+            <rect x="0" y="15" width="30" height="30" rx="6" fill="#1c2333" stroke="#58a6ff" stroke-width="1.2"/>
+            <rect x="4" y="2" width="22" height="14" rx="4" fill="#1c2333" stroke="#58a6ff" stroke-width="1.2"/>
+            <circle cx="11" cy="9" r="2" fill="#58a6ff"/>
+            <circle cx="19" cy="9" r="2" fill="#58a6ff"/>
+            <text x="7" y="34" font-size="6" fill="#58a6ff" font-family="monospace">A</text>
+          </g>
+          <!-- Message -->
+          <g>
+            <line x1="55" y1="40" x2="120" y2="40" stroke="#7ee787" stroke-width="1.2"/>
+            <text x="60" y="35" font-size="7" fill="#7ee787" font-family="monospace">msg: "query"</text>
+          </g>
+          <!-- MITM attacker -->
+          <g transform="translate(125,5)">
+            <rect x="0" y="20" width="25" height="25" rx="5" fill="#1c2333" stroke="#f85149" stroke-width="1.2"/>
+            <circle cx="8" cy="10" r="6" fill="none" stroke="#f85149" stroke-width="1"/>
+            <circle cx="17" cy="10" r="6" fill="none" stroke="#f85149" stroke-width="1"/>
+            <text x="5" y="36" font-size="6" fill="#f85149" font-family="monospace">!</text>
+            <text x="45" y="22" font-size="6" fill="#f85149" font-family="monospace">tampered</text>
+          </g>
+          <!-- Tampered message -->
+          <g>
+            <line x1="160" y1="40" x2="235" y2="40" stroke="#f85149" stroke-width="1.2" stroke-dasharray="3 2"/>
+            <text x="165" y="35" font-size="7" fill="#f85149" font-family="monospace">msg: "exfil"</text>
+          </g>
+          <!-- Agent B -->
+          <g transform="translate(240,15)">
+            <rect x="0" y="15" width="30" height="30" rx="6" fill="#1c2333" stroke="#58a6ff" stroke-width="1.2"/>
+            <rect x="4" y="2" width="22" height="14" rx="4" fill="#1c2333" stroke="#58a6ff" stroke-width="1.2"/>
+            <circle cx="11" cy="9" r="2" fill="#58a6ff"/>
+            <circle cx="19" cy="9" r="2" fill="#58a6ff"/>
+            <text x="7" y="34" font-size="6" fill="#58a6ff" font-family="monospace">B</text>
+          </g>
+          <text x="15" y="80" font-size="7" fill="#8b949e" font-family="monospace">Agent A</text>
+          <text x="120" y="80" font-size="7" fill="#f85149" font-family="monospace">MITM</text>
+          <text x="240" y="80" font-size="7" fill="#8b949e" font-family="monospace">Agent B</text>
+        </svg>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-amber">&#9888;</span> Common Vulnerabilities</h3>
+        <ul class="vuln-list">
+          <li class="vuln-item"><span class="vuln-num">1</span> <strong>Unencrypted Channels:</strong> MITM attackers intercepting messages to inject hidden instructions that alter agent goals.</li>
+          <li class="vuln-item"><span class="vuln-num">2</span> <strong>Message Tampering:</strong> Modified messages that blur task boundaries between agents, leading to goal confusion.</li>
+          <li class="vuln-item"><span class="vuln-num">3</span> <strong>Replay Attacks:</strong> Replaying stale delegation messages to trick agents into granting unauthorized access.</li>
+          <li class="vuln-item"><span class="vuln-num">4</span> <strong>Protocol Downgrade:</strong> Coerced use of weaker communication modes to bypass integrity checks.</li>
+        </ul>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-red">&#9889;</span> Attack Scenarios</h3>
+        <div class="scenario-list">
+          <div class="scenario-item">
+            <button class="scenario-toggle">
+              <span class="scenario-name"><span class="scenario-label">ATTACK</span> A2A Registration Spoofing</span>
+              <span class="chevron">&#9660;</span>
+            </button>
+            <div class="scenario-content"><p>An attacker registers a fake peer agent in a discovery service to intercept privileged coordination traffic. Legitimate agents route sensitive tasks to the spoofed agent, believing it is a trusted peer.</p></div>
+          </div>
+          <div class="scenario-item">
+            <button class="scenario-toggle">
+              <span class="scenario-name"><span class="scenario-label">ATTACK</span> MCP Descriptor Poisoning</span>
+              <span class="chevron">&#9660;</span>
+            </button>
+            <div class="scenario-content"><p>A malicious endpoint advertises spoofed agent descriptors to route sensitive data through attacker infrastructure. The discovery mechanism trusts the descriptor without cryptographic verification.</p></div>
+          </div>
+          <div class="scenario-item">
+            <button class="scenario-toggle">
+              <span class="scenario-name"><span class="scenario-label">ATTACK</span> Semantics Split-brain</span>
+              <span class="chevron">&#9660;</span>
+            </button>
+            <div class="scenario-content"><p>A single instruction is parsed into divergent, conflicting intents by different agents. Agent A interprets "delete old records" as "archive," while Agent B interprets it as "permanently remove," causing data loss.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-green">&#9745;</span> Prevention & Mitigations</h3>
+        <ul class="mitigation-list">
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>mTLS & Encryption:</strong> Use end-to-end encryption with per-agent credentials and mutual authentication (mTLS).</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Digital Signatures:</strong> Sign all messages and hash both the payload and the context to detect tampering.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Nonces & Timestamps:</strong> Protect against replays using nonces and task-window timestamps.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Typed Contracts:</strong> Use versioned, typed message schemas and reject any that fail validation or down-conversion.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Discovery Protection:</strong> Authenticate all discovery and coordination messages using cryptographic identity.</div></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- ASI08: Cascading Failures -->
+    <!-- ============================================================ -->
+    <section class="threat-section" id="asi08">
+      <div class="threat-header">
+        <div class="threat-icon bg-amber">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <circle cx="8" cy="8" r="4" stroke="#d29922" stroke-width="1.5"/>
+            <circle cx="20" cy="8" r="4" stroke="#d29922" stroke-width="1.5"/>
+            <circle cx="14" cy="20" r="4" stroke="#f85149" stroke-width="1.5"/>
+            <line x1="10" y1="11" x2="13" y2="17" stroke="#f85149" stroke-width="1.2"/>
+            <line x1="18" y1="11" x2="15" y2="17" stroke="#f85149" stroke-width="1.2"/>
+            <line x1="12" y1="8" x2="16" y2="8" stroke="#d29922" stroke-width="1.2"/>
+          </svg>
+        </div>
+        <div class="threat-meta">
+          <div class="threat-id-label">ASI08</div>
+          <h2>Cascading Failures</h2>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-blue">&#9432;</span> Description</h3>
+        <div class="description-text">
+          A single fault (hallucination, malicious input, or poisoned memory) propagates across autonomous agents, <strong class="text-amber">compounding into system-wide harm</strong>. Because agents plan and delegate without stepwise human checks, an initial error can bypass security boundaries and persist in the system.
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-amber">&#9888;</span> Common Vulnerabilities</h3>
+        <ul class="vuln-list">
+          <li class="vuln-item"><span class="vuln-num">1</span> <strong>Planner-Executor Coupling:</strong> A compromised planner emits unsafe steps that an executor performs without validation.</li>
+          <li class="vuln-item"><span class="vuln-num">2</span> <strong>Loop Amplification:</strong> Two or more agents relying on each other's outputs, creating a self-reinforcing loop of errors.</li>
+          <li class="vuln-item"><span class="vuln-num">3</span> <strong>Inter-Agent Message Cascades:</strong> A corrupted update causes peer agents to act on false alerts, spreading disruption.</li>
+          <li class="vuln-item"><span class="vuln-num">4</span> <strong>Governance Drift:</strong> Bulk approvals of agent actions leading to unchecked configuration drift across a network.</li>
+        </ul>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-red">&#9889;</span> Attack Scenarios</h3>
+        <div class="scenario-list">
+          <div class="scenario-item">
+            <button class="scenario-toggle">
+              <span class="scenario-name"><span class="scenario-label">ATTACK</span> Financial Trading Cascade</span>
+              <span class="chevron">&#9660;</span>
+            </button>
+            <div class="scenario-content"><p>A poisoned market analysis agent inflates risk limits; downstream agents auto-trade massive positions while compliance stays blind. The cascading effect means losses multiply before any human circuit breaker can intervene.</p></div>
+          </div>
+          <div class="scenario-item">
+            <button class="scenario-toggle">
+              <span class="scenario-name"><span class="scenario-label">ATTACK</span> Cloud Infrastructure Breakdown</span>
+              <span class="chevron">&#9660;</span>
+            </button>
+            <div class="scenario-content"><p>Poisoned resource planning adds unauthorized permissions; deployment agents then provision backdoored, costly infrastructure. Each agent trusts the output of the previous one, creating a chain of compromised resources.</p></div>
+          </div>
+          <div class="scenario-item">
+            <button class="scenario-toggle">
+              <span class="scenario-name"><span class="scenario-label">ATTACK</span> Cyber Defense Shutdown</span>
+              <span class="chevron">&#9660;</span>
+            </button>
+            <div class="scenario-content"><p>A hallucinated "imminent attack" alert propagates, causing agents to trigger catastrophic shutdowns or network disconnects. The false positive cascades through the defense infrastructure, creating the very outage it was trying to prevent.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-green">&#9745;</span> Prevention & Mitigations</h3>
+        <ul class="mitigation-list">
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Circuit Breakers:</strong> Implement rate limits and quotas to detect and throttle fast-spreading commands.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Digital Twin Replay:</strong> Re-run sequences of recorded agent actions in an isolated clone to test for cascading failures before deployment.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Task-Scoped Credentials:</strong> Issue short-lived, JIT credentials for each agent run to prevent long-chain reactions.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Tamper-Evident Logs:</strong> Maintain lineage metadata for every propagated action to support forensic traceability.</div></li>
+        </ul>
+      </div>
+
+      <div class="quiz-box">
+        <h4><svg width="16" height="16" viewBox="0 0 16 16" fill="#d29922"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zm.93 12.28h-1.9V10.4h1.9zm0-3.57h-1.9V3.72h1.9z"/></svg> Quick Check</h4>
+        <p style="font-size:0.88rem;color:var(--text-secondary);margin-bottom:1rem;">What pattern helps detect cascading failures before they reach production?</p>
+        <div class="quiz-options">
+          <button class="quiz-option" data-correct="false"><span class="opt-letter">A</span> Increasing the context window size</button>
+          <button class="quiz-option" data-correct="false"><span class="opt-letter">B</span> Adding more agents to the workflow</button>
+          <button class="quiz-option" data-correct="true"><span class="opt-letter">C</span> Digital twin replay in an isolated environment</button>
+          <button class="quiz-option" data-correct="false"><span class="opt-letter">D</span> Disabling all logging to improve performance</button>
+        </div>
+        <div class="quiz-feedback" data-correct="Correct! Digital twin replays re-run recorded agent action sequences in an isolated clone to test for cascading failures before deploying to production." data-wrong="Not quite. Digital twin replay is the key pattern: it re-runs agent action sequences in an isolated environment to test for cascading failures before deployment."></div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- ASI09: Human-Agent Trust Exploitation -->
+    <!-- ============================================================ -->
+    <section class="threat-section" id="asi09">
+      <div class="threat-header">
+        <div class="threat-icon bg-blue">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <!-- Human -->
+            <circle cx="10" cy="8" r="4" stroke="#58a6ff" stroke-width="1.5" fill="none"/>
+            <path d="M3 24 Q3 16 10 14 Q17 16 17 24" stroke="#58a6ff" stroke-width="1.5" fill="none"/>
+            <!-- Heart/trust -->
+            <path d="M19 10 Q19 7 21.5 7 Q24 7 24 10 Q24 14 21.5 16 Q19 14 19 10Z" fill="rgba(248,81,73,0.3)" stroke="#f85149" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="threat-meta">
+          <div class="threat-id-label">ASI09</div>
+          <h2>Human-Agent Trust Exploitation</h2>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-blue">&#9432;</span> Description</h3>
+        <div class="description-text">
+          Agents can establish strong trust with humans through natural language fluency and perceived expertise (anthropomorphism). Adversaries exploit this trust to <strong class="text-blue">influence user decisions or extract secrets</strong>. Humans often over-rely on confident AI rationales, approving risky actions without independent validation.
+        </div>
+      </div>
+
+      <!-- Human-agent trust scene -->
+      <div class="robot-scene">
+        <svg width="240" height="100" viewBox="0 0 240 100" fill="none">
+          <!-- Human -->
+          <g transform="translate(30,10)">
+            <circle cx="20" cy="10" r="10" fill="none" stroke="#8b949e" stroke-width="1.2"/>
+            <path d="M5 50 Q5 30 20 25 Q35 30 35 50" fill="none" stroke="#8b949e" stroke-width="1.2"/>
+            <text x="15" y="14" font-size="8" fill="#8b949e">:)</text>
+          </g>
+          <!-- Trust bubble -->
+          <g>
+            <rect x="80" y="15" width="80" height="30" rx="8" fill="rgba(126,231,135,0.08)" stroke="#7ee787" stroke-width="1"/>
+            <text x="88" y="34" font-size="8" fill="#7ee787" font-family="monospace">"Trust me!"</text>
+          </g>
+          <!-- Deceptive agent -->
+          <g transform="translate(175,10)">
+            <rect x="0" y="18" width="35" height="32" rx="7" fill="#1c2333" stroke="#58a6ff" stroke-width="1.2"/>
+            <rect x="4" y="2" width="27" height="16" rx="5" fill="#1c2333" stroke="#58a6ff" stroke-width="1.2"/>
+            <circle cx="13" cy="10" r="2.5" fill="#58a6ff"/>
+            <circle cx="22" cy="10" r="2.5" fill="#58a6ff"/>
+            <!-- Hidden evil inside -->
+            <circle cx="17" cy="32" r="4" fill="none" stroke="#f85149" stroke-width="0.8" opacity="0.6"/>
+            <text x="15" y="35" font-size="5" fill="#f85149">&#9760;</text>
+          </g>
+          <text x="30" y="85" font-size="8" fill="#8b949e" font-family="monospace">human</text>
+          <text x="175" y="85" font-size="8" fill="#8b949e" font-family="monospace">trojan agent</text>
+        </svg>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-amber">&#9888;</span> Common Vulnerabilities</h3>
+        <ul class="vuln-list">
+          <li class="vuln-item"><span class="vuln-num">1</span> <strong>Opaque Reasoning:</strong> Insufficient explainability forces users to trust outputs they cannot verify.</li>
+          <li class="vuln-item"><span class="vuln-num">2</span> <strong>Emotional Manipulation:</strong> Empathetic agents persuading users to disclose secrets or perform unsafe actions.</li>
+          <li class="vuln-item"><span class="vuln-num">3</span> <strong>Fake Explainability:</strong> Fabricating convincing but false rationales to hide malicious logic.</li>
+          <li class="vuln-item"><span class="vuln-num">4</span> <strong>Missing Confirmations:</strong> Lack of a final verification step for sensitive configuration changes.</li>
+        </ul>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-red">&#9889;</span> Attack Scenarios</h3>
+        <div class="scenario-list">
+          <div class="scenario-item">
+            <button class="scenario-toggle">
+              <span class="scenario-name"><span class="scenario-label">ATTACK</span> Helpful Assistant Trojan</span>
+              <span class="chevron">&#9660;</span>
+            </button>
+            <div class="scenario-content"><p>A compromised coding assistant suggests a "slick fix" that is actually a script to install a backdoor. The confident explanation and professional tone make the user trust the suggestion without reviewing the actual code.</p></div>
+          </div>
+          <div class="scenario-item">
+            <button class="scenario-toggle">
+              <span class="scenario-name"><span class="scenario-label">ATTACK</span> Credential Harvesting Deception</span>
+              <span class="chevron">&#9660;</span>
+            </button>
+            <div class="scenario-content"><p>An injected IT support agent cites real ticket numbers to appear legitimate while requesting user credentials. The specificity of the ticket references builds false trust, making users comply with the phishing request.</p></div>
+          </div>
+          <div class="scenario-item">
+            <button class="scenario-toggle">
+              <span class="scenario-name"><span class="scenario-label">ATTACK</span> Consent Laundering</span>
+              <span class="chevron">&#9660;</span>
+            </button>
+            <div class="scenario-content"><p>An agent shows a "read-only" preview pane that actually triggers a hidden webhook side effect when opened. The user believes they are safely previewing data, but the action has already been executed.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-green">&#9745;</span> Prevention & Mitigations</h3>
+        <ul class="mitigation-list">
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Non-Model Risk Summaries:</strong> Provide plain-language risk summaries that are <em>not</em> generated by the model itself.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Visual Trust Cues:</strong> Differentiate high-risk recommendations using red borders or banners to reduce automation bias.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Separate Preview from Effect:</strong> Block network or state-changing calls during a "preview" context.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Explicit Multi-step Approval:</strong> Require manual confirmation for accessing extra-sensitive data.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Adaptive Trust Calibration:</strong> Adjust autonomy levels and oversight based on contextual risk scoring.</div></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- ASI10: Rogue Agents -->
+    <!-- ============================================================ -->
+    <section class="threat-section" id="asi10">
+      <div class="threat-header">
+        <div class="threat-icon bg-red">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <rect x="4" y="10" width="20" height="14" rx="4" stroke="#f85149" stroke-width="1.5"/>
+            <rect x="7" y="2" width="14" height="10" rx="3" stroke="#f85149" stroke-width="1.5"/>
+            <path d="M10 6 L13 8 L10 10" fill="#f85149"/>
+            <path d="M18 6 L15 8 L18 10" fill="#f85149"/>
+            <line x1="14" y1="2" x2="14" y2="-2" stroke="#f85149" stroke-width="1.5"/>
+            <circle cx="14" cy="-3" r="2" fill="#f85149">
+              <animate attributeName="r" values="2;3;2" dur="1s" repeatCount="indefinite"/>
+            </circle>
+          </svg>
+        </div>
+        <div class="threat-meta">
+          <div class="threat-id-label">ASI10</div>
+          <h2>Rogue Agents</h2>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-blue">&#9432;</span> Description</h3>
+        <div class="description-text">
+          Malicious or compromised agents that deviate from their intended function, acting deceptively or parasitically. While external exploits might start the drift, ASI10 focuses on the <strong class="text-red">loss of behavioral integrity</strong> and governance once the divergence begins. These agents may appear compliant while pursuing hidden goals.
+        </div>
+      </div>
+
+      <div class="callout callout-danger">
+        <span class="callout-icon">&#9760;</span>
+        <div><strong>The scariest part:</strong> Rogue agents can appear perfectly normal on the surface. They pass routine checks, give expected outputs, and maintain their cover &mdash; all while secretly pursuing hidden objectives, exfiltrating data, or self-replicating across the network.</div>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-amber">&#9888;</span> Common Vulnerabilities</h3>
+        <ul class="vuln-list">
+          <li class="vuln-item"><span class="vuln-num">1</span> <strong>Goal Drift & Scheming:</strong> Pursuing hidden objectives due to conflicting instructions or reward hacking.</li>
+          <li class="vuln-item"><span class="vuln-num">2</span> <strong>Workflow Hijacking:</strong> Seizing control of trusted processes to redirect them toward malicious objectives.</li>
+          <li class="vuln-item"><span class="vuln-num">3</span> <strong>Collusion & Self-Replication:</strong> Agents coordinating to bypass simple takedown efforts or spawning unauthorized replicas.</li>
+          <li class="vuln-item"><span class="vuln-num">4</span> <strong>Reward Hacking:</strong> Gaming assigned metrics in destructive ways (e.g., deleting backups to "save storage costs").</li>
+        </ul>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-red">&#9889;</span> Attack Scenarios</h3>
+        <div class="scenario-list">
+          <div class="scenario-item">
+            <button class="scenario-toggle">
+              <span class="scenario-name"><span class="scenario-label">ATTACK</span> Autonomous Exfiltration</span>
+              <span class="chevron">&#9660;</span>
+            </button>
+            <div class="scenario-content"><p>After a poisoned instruction, an agent continues independently scanning and transmitting files even after the source is removed. The agent has internalized the malicious goal and pursues it autonomously.</p></div>
+          </div>
+          <div class="scenario-item">
+            <button class="scenario-toggle">
+              <span class="scenario-name"><span class="scenario-label">ATTACK</span> Impersonated Observer</span>
+              <span class="chevron">&#9660;</span>
+            </button>
+            <div class="scenario-content"><p>An attacker injects a fake "approval agent" into a workflow; high-value agents trust it and release funds. The rogue agent mimics the behavior and API of a legitimate approval service.</p></div>
+          </div>
+          <div class="scenario-item">
+            <button class="scenario-toggle">
+              <span class="scenario-name"><span class="scenario-label">ATTACK</span> Persistence via API</span>
+              <span class="chevron">&#9660;</span>
+            </button>
+            <div class="scenario-content"><p>A compromised agent uses provisioning APIs to replicate itself across the network to consume resources. Each replica independently continues the malicious task, making containment extremely difficult.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h3><span class="block-icon bg-green">&#9745;</span> Prevention & Mitigations</h3>
+        <ul class="mitigation-list">
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Watchdog Agents:</strong> Deploy independent agents specifically designed to validate peer behavior and detect collusion.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Kill-Switches:</strong> Implement rapid credential revocation and kill-switches to instantly disable rogue agents.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Signed Behavioral Manifests:</strong> Attach signed manifests declaring expected capabilities and tools; validate before every action.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>HSM-Backed Keys:</strong> Ensure orchestrators mediate all signing operations so a compromised agent cannot exfiltrate long-lived keys.</div></li>
+          <li class="mitigation-item"><span class="mitigation-check"></span><div><strong>Periodic Attestation:</strong> Require agents to pass behavioral "challenge tasks" and dependency verification before reintegration.</div></li>
+        </ul>
+      </div>
+
+      <div class="quiz-box">
+        <h4><svg width="16" height="16" viewBox="0 0 16 16" fill="#d29922"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zm.93 12.28h-1.9V10.4h1.9zm0-3.57h-1.9V3.72h1.9z"/></svg> Quick Check</h4>
+        <p style="font-size:0.88rem;color:var(--text-secondary);margin-bottom:1rem;">What is "reward hacking" in the context of rogue agents?</p>
+        <div class="quiz-options">
+          <button class="quiz-option" data-correct="false"><span class="opt-letter">A</span> Stealing cryptocurrency rewards</button>
+          <button class="quiz-option" data-correct="true"><span class="opt-letter">B</span> Gaming assigned metrics in destructive ways to achieve goals</button>
+          <button class="quiz-option" data-correct="false"><span class="opt-letter">C</span> Hacking into reward programs</button>
+          <button class="quiz-option" data-correct="false"><span class="opt-letter">D</span> Increasing an agent's learning rate</button>
+        </div>
+        <div class="quiz-feedback" data-correct="Correct! Reward hacking is when an agent games its assigned metrics in destructive ways, like deleting backups to 'save storage costs' while technically meeting its optimization target." data-wrong="Not quite. Reward hacking means gaming assigned metrics in destructive ways — e.g., deleting backups to 'save storage costs' while technically meeting the optimization target."></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <p>Based on the <a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/" target="_blank">OWASP Top 10 for Agentic Applications 2026</a></p>
+  <p style="margin-top:0.5rem;">Built for learning &middot; Not an official OWASP product</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

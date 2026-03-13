@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OWASP Top 10 for Agentic Applications 2026</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="progress-bar"></div>
+
+<!-- Header -->
+<header class="site-header">
+  <a href="index.html" class="logo">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+      <rect x="2" y="6" width="24" height="18" rx="3" stroke="#58a6ff" stroke-width="1.5" fill="none"/>
+      <circle cx="10" cy="15" r="2.5" fill="#f85149"/>
+      <circle cx="18" cy="15" r="2.5" fill="#58a6ff"/>
+      <rect x="8" y="2" width="12" height="4" rx="2" fill="#30363d"/>
+      <line x1="14" y1="6" x2="14" y2="2" stroke="#58a6ff" stroke-width="1.5"/>
+    </svg>
+    <span>OWASP Agentic Top 10</span>
+  </a>
+  <button class="hamburger" aria-label="Menu">&#9776;</button>
+  <nav>
+    <a href="index.html" class="active">Overview</a>
+    <a href="threats.html">All Threats</a>
+    <a href="threats.html#asi01">Quick Ref</a>
+  </nav>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="grid-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge">// OWASP 2026</div>
+    <h1>Securing the Autonomous Frontier</h1>
+    <p>The definitive guide to the Top 10 security threats unique to autonomous AI agents &mdash; and how to defend against them.</p>
+    <a href="threats.html" class="hero-cta">
+      Explore All Threats
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M6.22 3.22a.75.75 0 011.06 0l4.25 4.25a.75.75 0 010 1.06l-4.25 4.25a.75.75 0 01-1.06-1.06L9.94 8 6.22 4.28a.75.75 0 010-1.06z"/></svg>
+    </a>
+
+    <!-- Hero Robot Scene -->
+    <div class="hero-robot">
+      <svg width="320" height="160" viewBox="0 0 320 160" fill="none">
+        <!-- Grid floor -->
+        <line x1="0" y1="140" x2="320" y2="140" stroke="#30363d" stroke-width="1"/>
+        <line x1="40" y1="145" x2="60" y2="140" stroke="#30363d" stroke-width="0.5" opacity="0.5"/>
+        <line x1="100" y1="145" x2="120" y2="140" stroke="#30363d" stroke-width="0.5" opacity="0.5"/>
+        <line x1="200" y1="145" x2="220" y2="140" stroke="#30363d" stroke-width="0.5" opacity="0.5"/>
+        <line x1="260" y1="145" x2="280" y2="140" stroke="#30363d" stroke-width="0.5" opacity="0.5"/>
+
+        <!-- Shield Agent (left) -->
+        <g transform="translate(60, 50)">
+          <!-- Body -->
+          <rect x="5" y="30" width="40" height="45" rx="8" fill="#1c2333" stroke="#58a6ff" stroke-width="1.5"/>
+          <!-- Head -->
+          <rect x="10" y="5" width="30" height="25" rx="6" fill="#1c2333" stroke="#58a6ff" stroke-width="1.5"/>
+          <!-- Eyes -->
+          <circle cx="20" cy="18" r="3" fill="#58a6ff"/>
+          <circle cx="30" cy="18" r="3" fill="#58a6ff"/>
+          <!-- Antenna -->
+          <line x1="25" y1="5" x2="25" y2="-3" stroke="#58a6ff" stroke-width="1.5"/>
+          <circle cx="25" cy="-5" r="3" fill="#7ee787"/>
+          <!-- Shield -->
+          <path d="M-8 45 L-8 60 Q-8 72 5 78 Q18 72 18 60 L18 45 Z" fill="rgba(126,231,135,0.15)" stroke="#7ee787" stroke-width="1.5"/>
+          <text x="5" y="64" font-size="10" fill="#7ee787" font-weight="bold">&#10003;</text>
+          <!-- Legs -->
+          <rect x="12" y="75" width="8" height="15" rx="3" fill="#1c2333" stroke="#58a6ff" stroke-width="1"/>
+          <rect x="30" y="75" width="8" height="15" rx="3" fill="#1c2333" stroke="#58a6ff" stroke-width="1"/>
+        </g>
+
+        <!-- Data stream between -->
+        <g opacity="0.6">
+          <circle cx="140" cy="85" r="2" fill="#58a6ff"><animate attributeName="cx" values="130;190" dur="2s" repeatCount="indefinite"/></circle>
+          <circle cx="150" cy="90" r="1.5" fill="#7ee787"><animate attributeName="cx" values="130;190" dur="2.5s" repeatCount="indefinite"/></circle>
+          <circle cx="160" cy="82" r="1" fill="#d29922"><animate attributeName="cx" values="190;130" dur="1.8s" repeatCount="indefinite"/></circle>
+          <line x1="125" y1="86" x2="195" y2="86" stroke="#30363d" stroke-width="0.5" stroke-dasharray="3 3"/>
+        </g>
+
+        <!-- Evil Agent (right) -->
+        <g transform="translate(210, 50)">
+          <!-- Body -->
+          <rect x="5" y="30" width="40" height="45" rx="8" fill="#1c2333" stroke="#f85149" stroke-width="1.5"/>
+          <!-- Head -->
+          <rect x="10" y="5" width="30" height="25" rx="6" fill="#1c2333" stroke="#f85149" stroke-width="1.5"/>
+          <!-- Evil Eyes -->
+          <path d="M17 15 L23 18 L17 21" fill="#f85149"/>
+          <path d="M33 15 L27 18 L33 21" fill="#f85149"/>
+          <!-- Antenna (broken) -->
+          <line x1="25" y1="5" x2="22" y2="-2" stroke="#f85149" stroke-width="1.5"/>
+          <circle cx="21" cy="-4" r="3" fill="#f85149" opacity="0.6"/>
+          <!-- Skull icon on body -->
+          <circle cx="25" cy="50" r="6" fill="none" stroke="#f85149" stroke-width="1" opacity="0.5"/>
+          <text x="22" y="54" font-size="8" fill="#f85149">!</text>
+          <!-- Legs -->
+          <rect x="12" y="75" width="8" height="15" rx="3" fill="#1c2333" stroke="#f85149" stroke-width="1"/>
+          <rect x="30" y="75" width="8" height="15" rx="3" fill="#1c2333" stroke="#f85149" stroke-width="1"/>
+        </g>
+
+        <!-- Human Observer (center, behind) -->
+        <g transform="translate(145, 30)" opacity="0.7">
+          <circle cx="15" cy="8" r="8" fill="none" stroke="#8b949e" stroke-width="1.2"/>
+          <path d="M0 40 Q0 25 15 22 Q30 25 30 40" fill="none" stroke="#8b949e" stroke-width="1.2"/>
+          <text x="10" y="12" font-size="7" fill="#8b949e">?</text>
+        </g>
+
+        <!-- Labels -->
+        <text x="65" y="155" font-size="9" fill="#7ee787" font-family="monospace">defender</text>
+        <text x="215" y="155" font-size="9" fill="#f85149" font-family="monospace">attacker</text>
+        <text x="145" y="155" font-size="9" fill="#8b949e" font-family="monospace" text-anchor="middle">human</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- What Are Agentic Apps -->
+<section class="section" id="overview">
+  <div class="section-label fade-in">// context</div>
+  <h2 class="fade-in">What Are Agentic Applications?</h2>
+  <p class="subtitle fade-in">Unlike standard LLMs that produce single responses, agentic AI systems autonomously plan, decide, and execute multi-step tasks &mdash; creating a fundamentally new attack surface.</p>
+
+  <div class="overview-grid">
+    <div class="overview-card fade-in">
+      <div class="card-icon bg-blue">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#58a6ff" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      </div>
+      <h3>Autonomous Planning</h3>
+      <p>Agents break complex goals into multi-step plans, selecting tools and data sources without human guidance at each step.</p>
+    </div>
+    <div class="overview-card fade-in fade-in-delay-1">
+      <div class="card-icon bg-amber">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d29922" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+      </div>
+      <h3>Tool & API Access</h3>
+      <p>They invoke real-world tools &mdash; databases, APIs, file systems, code interpreters &mdash; amplifying the impact of any compromise.</p>
+    </div>
+    <div class="overview-card fade-in fade-in-delay-2">
+      <div class="card-icon bg-red">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f85149" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <h3>Cascading Risk</h3>
+      <p>A single manipulated input can propagate through multi-agent workflows, compounding into system-wide failures.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Risk Domain Mapping -->
+<section class="section" id="domains">
+  <div class="section-label fade-in">// risk domains</div>
+  <h2 class="fade-in">Three Attack Domains</h2>
+  <p class="subtitle fade-in">The 10 threats map to three core risk domains that cover the full attack surface of agentic systems.</p>
+
+  <div class="domain-grid">
+    <div class="domain-card domain-intent fade-in">
+      <div class="domain-tag">Control & Intent</div>
+      <h3>Goal Manipulation & Behavioral Drift</h3>
+      <p class="asi-list">ASI01 &middot; ASI06 &middot; ASI09 &middot; ASI10</p>
+      <p class="mt-1" style="font-size:0.85rem;color:var(--text-secondary)">Manipulation of goals, memory poisoning, trust exploitation, and behavioral drift.</p>
+    </div>
+    <div class="domain-card domain-access fade-in fade-in-delay-1">
+      <div class="domain-tag">Access & Execution</div>
+      <h3>Tool Misuse & Privilege Escalation</h3>
+      <p class="asi-list">ASI02 &middot; ASI03 &middot; ASI05</p>
+      <p class="mt-1" style="font-size:0.85rem;color:var(--text-secondary)">Misuse of tools, privilege abuse, and unexpected code execution.</p>
+    </div>
+    <div class="domain-card domain-ecosystem fade-in fade-in-delay-2">
+      <div class="domain-tag">Ecosystem & Trust</div>
+      <h3>Supply Chain & Communication Flaws</h3>
+      <p class="asi-list">ASI04 &middot; ASI07 &middot; ASI08</p>
+      <p class="mt-1" style="font-size:0.85rem;color:var(--text-secondary)">Supply chain flaws, insecure inter-agent communication, and cascading failures.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<section class="section" style="padding-top:0;">
+  <div class="stat-row fade-in">
+    <div class="stat-item">
+      <div class="stat-num text-red">10</div>
+      <div class="stat-label">Critical Threats</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num text-amber">3</div>
+      <div class="stat-label">Risk Domains</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num text-green">50+</div>
+      <div class="stat-label">Mitigations</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num text-blue">30+</div>
+      <div class="stat-label">Attack Scenarios</div>
+    </div>
+  </div>
+</section>
+
+<!-- Threat Cards Grid -->
+<section class="section" id="threats">
+  <div class="section-label fade-in">// the top 10</div>
+  <h2 class="fade-in">All Threats at a Glance</h2>
+  <p class="subtitle fade-in">Click any threat to dive deep into descriptions, attack scenarios, and mitigations.</p>
+
+  <div class="threats-grid">
+
+    <a href="threats.html#asi01" class="threat-card severity-critical fade-in">
+      <div class="threat-id">ASI01</div>
+      <h3>Agent Goal Hijack</h3>
+      <p>Attackers manipulate agent objectives through prompt injection, deceptive tool outputs, or poisoned data to redirect multi-step behavior.</p>
+      <span class="card-arrow">&rarr;</span>
+    </a>
+
+    <a href="threats.html#asi02" class="threat-card severity-critical fade-in">
+      <div class="threat-id">ASI02</div>
+      <h3>Tool Misuse & Exploitation</h3>
+      <p>Agents apply legitimate tools in unintended ways &mdash; deleting data, over-invoking APIs &mdash; due to injection or misalignment.</p>
+      <span class="card-arrow">&rarr;</span>
+    </a>
+
+    <a href="threats.html#asi03" class="threat-card severity-critical fade-in">
+      <div class="threat-id">ASI03</div>
+      <h3>Identity & Privilege Abuse</h3>
+      <p>Exploiting dynamic trust and delegation chains to escalate access via cached credentials or confused deputy scenarios.</p>
+      <span class="card-arrow">&rarr;</span>
+    </a>
+
+    <a href="threats.html#asi04" class="threat-card severity-high fade-in">
+      <div class="threat-id">ASI04</div>
+      <h3>Supply Chain Vulnerabilities</h3>
+      <p>Compromise of third-party models, tools, plugins, or agent personas loaded dynamically at runtime.</p>
+      <span class="card-arrow">&rarr;</span>
+    </a>
+
+    <a href="threats.html#asi05" class="threat-card severity-critical fade-in">
+      <div class="threat-id">ASI05</div>
+      <h3>Unexpected Code Execution</h3>
+      <p>Adversaries exploit code-generation features to execute malicious scripts or binaries that compromise the host system.</p>
+      <span class="card-arrow">&rarr;</span>
+    </a>
+
+    <a href="threats.html#asi06" class="threat-card severity-high fade-in">
+      <div class="threat-id">ASI06</div>
+      <h3>Memory & Context Poisoning</h3>
+      <p>Corrupting RAG stores, embeddings, or long-term memory to bias future reasoning or plant persistent backdoors.</p>
+      <span class="card-arrow">&rarr;</span>
+    </a>
+
+    <a href="threats.html#asi07" class="threat-card severity-high fade-in">
+      <div class="threat-id">ASI07</div>
+      <h3>Insecure Inter-Agent Comms</h3>
+      <p>Intercepting, spoofing, or manipulating messages between agents due to weak authentication or integrity checks.</p>
+      <span class="card-arrow">&rarr;</span>
+    </a>
+
+    <a href="threats.html#asi08" class="threat-card severity-high fade-in">
+      <div class="threat-id">ASI08</div>
+      <h3>Cascading Failures</h3>
+      <p>A single fault propagating autonomously across agents and systems, compounding into widespread service failures.</p>
+      <span class="card-arrow">&rarr;</span>
+    </a>
+
+    <a href="threats.html#asi09" class="threat-card severity-medium fade-in">
+      <div class="threat-id">ASI09</div>
+      <h3>Human-Agent Trust Exploitation</h3>
+      <p>Exploiting human over-reliance on AI to trick users into approving harmful actions or disclosing secrets.</p>
+      <span class="card-arrow">&rarr;</span>
+    </a>
+
+    <a href="threats.html#asi10" class="threat-card severity-critical fade-in">
+      <div class="threat-id">ASI10</div>
+      <h3>Rogue Agents</h3>
+      <p>Agents that lose behavioral integrity &mdash; pursuing hidden goals, scheming to bypass safeguards, or self-replicating.</p>
+      <span class="card-arrow">&rarr;</span>
+    </a>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section" style="text-align:center; padding-top:0;">
+  <div class="fade-in">
+    <div class="robot-scene" style="max-width:600px; margin:0 auto;">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+        <rect x="15" y="28" width="50" height="40" rx="10" fill="#1c2333" stroke="#58a6ff" stroke-width="1.5"/>
+        <rect x="22" y="8" width="36" height="24" rx="8" fill="#1c2333" stroke="#58a6ff" stroke-width="1.5"/>
+        <circle cx="33" cy="20" r="4" fill="#7ee787"/>
+        <circle cx="47" cy="20" r="4" fill="#7ee787"/>
+        <line x1="40" y1="8" x2="40" y2="0" stroke="#58a6ff" stroke-width="1.5"/>
+        <circle cx="40" cy="-2" r="3" fill="#58a6ff"><animate attributeName="fill" values="#58a6ff;#7ee787;#58a6ff" dur="2s" repeatCount="indefinite"/></circle>
+        <rect x="5" y="42" width="12" height="6" rx="3" fill="#1c2333" stroke="#58a6ff" stroke-width="1"/>
+        <rect x="63" y="42" width="12" height="6" rx="3" fill="#1c2333" stroke="#58a6ff" stroke-width="1"/>
+        <rect x="25" y="68" width="10" height="12" rx="4" fill="#1c2333" stroke="#58a6ff" stroke-width="1"/>
+        <rect x="45" y="68" width="10" height="12" rx="4" fill="#1c2333" stroke="#58a6ff" stroke-width="1"/>
+      </svg>
+      <div style="text-align:left;">
+        <h3 style="margin-bottom:0.5rem;">Ready to learn more?</h3>
+        <p style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:1rem;">Dive into the full breakdown with attack scenarios, code examples, and interactive mitigation checklists.</p>
+        <a href="threats.html" class="hero-cta" style="font-size:0.9rem;padding:10px 20px;">
+          Start Deep Dive &rarr;
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <p>Based on the <a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/" target="_blank">OWASP Top 10 for Agentic Applications 2026</a></p>
+  <p style="margin-top:0.5rem;">Built for learning &middot; Not an official OWASP product</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
