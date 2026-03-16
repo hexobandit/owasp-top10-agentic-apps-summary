@@ -5,7 +5,8 @@ Security threats and mitigations for autonomous AI agent systems.
 ## What's in This Repo
 
 ### Interactive Web Presentation (`webapp/`)
-A portable, zero-dependency learning platform — just open `index.html` in any browser. Also available in here: https://threatbandit.com/academy/
+A portable, zero-dependency learning platform — just open `index.html` in any browser. 
+Also available in here: https://threatbandit.com/academy/
 
 | File | Description |
 |------|-------------|
