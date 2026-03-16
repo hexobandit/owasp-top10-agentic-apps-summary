@@ -1,11 +1,11 @@
 # OWASP Top 10 for Agentic Applications (2026)
 
-Security threats and mitigations for autonomous AI agent systems.
+Security threats and mitigations for autonomous AI agent systems. 
 
 ## What's in This Repo
 
 ### Interactive Web Presentation (`webapp/`)
-A portable, zero-dependency learning platform — just open `index.html` in any browser.
+A portable, zero-dependency learning platform — just open `index.html` in any browser. Also available in here: https://threatbandit.com/academy/
 
 | File | Description |
 |------|-------------|
